@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NJÖRD — Giovanni Coroneo</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body>
+    <div id="mobile-blur">
+        <p>Placeholder: this layout is desktop-first.<span>(or resize your browser)</span></p>
+    </div>
+
+    <p id="case-study-intro" style="margin-bottom: 100px;"><span id="record-icon"></span><a href="index.html" style="text-decoration:none;color:inherit;">Giovanni Coroneo</a></p>
+
+    <!--Modal-->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+          <img id="expandedImg" alt="Expanded Image">
+        </div>
+    </div>
+
+    <!--Sidebar-->
+    <div id="sidebar">
+        <h1 class="case-study-title"><em>NJÖRD</em>:<br>Shape your Desire.</h1>
+        <p><span class="case-study-small">(  Summary  )</span>A speculative design project that pushes the buying and eating salmon into a near future where colour becomes<br>a consumer choice. It starts from salmoFan, a Pantone swatch that fixes the colour of farmed salmon, and imagines a service<br>that lets anyone tint their fish to taste.</p>
+
+        <p><span class="case-study-small">(  Scope  )</span>( 3D Design, Brand Identity,<br>Speculative Design, UX Design )</p>
+
+        <p><span class="case-study-small">(  Context  )</span>Final Review Course C3,<br>BSc in Communication Design,<br>Politecnico di Milano.</p>
+
+        <p><span class="case-study-small">(  Live Website  )</span><a href="https://www.antidisciplinarylab.it/rawscenarios/" target="_blank">Raw Scenarios</a></p>
+    </div>
+
+    <!--Content-->
+    <div id="content">
+        <div id="navbar">
+            <a href="index.html">Work</a>
+            <a href="about.html">About</a>
+            <a href="play.html">Play</a>
+            <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+        </div>
+
+        <!--Case Study Content-->
+        <div id="case-study">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( The Real Practice )</span>The flesh of farmed salmon is naturally pale, close to white. Because almost no one would buy a colourless fillet, producers add pigment to<br>the feed and pick the final shade from a colour fan.</p>
+                    <p>The colour of the salmon we eat is, quite literally, a decision made from a swatch. NJÖRD begins exactly here, taking a practice that already exists and following<br>it to its logical conclusion.</p>
+                </div>
+            </div>
+
+            <video src="assets/images/2. NJÖRD/img. 1.mp4" muted playsinline></video>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( SalmoFan )</span>At the centre of the system is salmoFan, a swatch fan that codifies the pigmentation of salmon the way a Pantone book codifies ink. Each customer can browse the different shades and create a fillet to suit their own tastes.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 2.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( The Speculation )</span>If the colour is already chosen for us, why not hand the choice to the buyer? NJÖRD imagines a retail service for custom salmon, where the customer — not the producer — decides how the fish should look before it reaches the plate.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 3.webp" alt="">
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 4.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p>The scenario is deliberately frictionless and ordinary, so that the absurdity reads as a natural extension of how we already shop. Speculative design uses plausible futures to question the present we now accept.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 5.webp" alt="">
+
+            <div class="case-study-2-column">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 6.webp" alt="">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 7.webp" alt="">
+            </div>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( The Console )</span>The service is held together by a communication machine: a console that stages the act of customisation. It turns an unsettling idea into a smooth, retail-grade interaction, where colouring a living thing feels no different from picking a paint sample.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 8.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( A Critique )</span>Behind the product sits a critique of the human habit of reshaping nature on a whim. By making the manipulation explicit, desirable, and even fun, NJÖRD asks how far convenience can go before a preference becomes a quiet form of violence.</p>
+                    <p style="font-weight: 1000;color: cornflowerblue;">The salmon is no longer a fish. It is a colour you can order.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/2. NJÖRD/img. 9.webp" alt="">
+
+        </div>
+
+        <div id="footer"></div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>

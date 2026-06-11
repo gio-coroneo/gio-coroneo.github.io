@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID gramma — Giovanni Coroneo</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body data-free-videos>
+    <div id="mobile-blur">
+        <p>Placeholder: this layout is desktop-first.<span>(or resize your browser)</span></p>
+    </div>
+
+    <p id="case-study-intro" style="margin-bottom: 100px;"><span id="record-icon"></span><a href="index.html" style="text-decoration:none;color:inherit;">Giovanni Coroneo</a></p>
+
+    <!--Modal-->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+          <img id="expandedImg" alt="Expanded Image">
+        </div>
+    </div>
+
+    <!--Sidebar-->
+    <div id="sidebar">
+        <h1 class="case-study-title"><em>ID gramma</em>:<br>Faces of technology.</h1>
+        <p><span class="case-study-small">(  Summary  )</span>An experimental project that misuses Apple's Face ID the way Bruno Munari once misused the Xerox scanner. By scanning and translating into image what the sensor believes it recognises, the work produces a series of digital sculptures, later shown at MEET in Milan.</p>
+
+        <p><span class="case-study-small">(  Scope  )</span><span style="letter-spacing: -0.125px;">( Experimental Tech, 3D Design )</span></p>
+
+        <p><span class="case-study-small">(  Context  )</span>Digital Image Culture Course, MSc in Communication Design, Politecnico di Milano.</p>
+
+    </div>
+
+    <!--Content-->
+    <div id="content">
+        <div id="navbar">
+            <a href="index.html">Work</a>
+            <a href="about.html">About</a>
+            <a href="play.html">Play</a>
+            <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+        </div>
+
+        <!--Case Study Content-->
+        <div id="case-study">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( Starting Point )</span>In his Xerografie, Bruno Munari used the photocopier against<br>its purpose, moving objects mid-scan to make images it was never built to produce.<br>ID gramma asks how that spirit of misuse stays relevant with technologies we carry.</p>
+                    <p>Face ID exists to confirm one thing: that a specific face is the right face. Here it turns from recognition to image-making. Fed surfaces it reads as a face, its interpretations become form. The project begins not from a problem but from curiosity.</p>
+                </div>
+            </div>
+
+            <video src="assets/images/3. ID gramma/img. 1.mp4" muted playsinline style="object-position: center center;"></video>
+
+            <video src="assets/images/3. ID gramma/img. 2.mp4" muted playsinline style="object-position: center center;"></video>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( Digital Sculptures )</span>What the sensor returns is neither a portrait nor a scan, but something in between: a series of digital sculptures born from the gap between<br>what the machine expects and what it is actually given.</p>
+                    <p style="font-weight: 1000;color: cornflowerblue;">A recognition tool, designed to draw what it could previously only recognise.</p>
+                </div>
+            </div>
+
+            <video class="video-lowered" src="assets/images/3. ID gramma/img. 3.mp4" muted playsinline></video>
+
+            <div class="case-study-2-column" style="margin-bottom: 0px;">
+                <video class="video-lowered" src="assets/images/3. ID gramma/img. 4.mp4" muted playsinline></video>
+                <video class="video-lowered" src="assets/images/3. ID gramma/img. 5.mp4" muted playsinline></video>
+            </div>
+
+            <div class="case-study-2-column">
+                <video class="video-lowered" src="assets/images/3. ID gramma/img. 6.mp4" muted playsinline></video>
+                <video class="video-lowered" src="assets/images/3. ID gramma/img. 7.mp4" muted playsinline></video>
+            </div>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( At MEET )</span>The sculptures were shown at MEET, Milan's centre for digital culture, where the distorted faces stood as standalone exhibits rather than failed scans.<br>We then built the visual identity for the event's launch, starting from the logo.</p>
+                    <p>The logo follows the same deconstruction logic as the object. Just as the heads reveal their form only from a privileged angle, so does the logotype, exploded in Blender<br>into a cloud of micro-elements that realign into "ID gramma".</p>
+                </div>
+            </div>
+
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" style="background-color: #000000;"><video src="assets/images/3. ID gramma/img. 8.mp4" muted playsinline style="object-position: center calc(50% - 15px); transform: scale(0.6);"></video></div>
+                    <div class="carousel-item" style="background-color: #000000;"><video src="assets/images/3. ID gramma/img. 9.mp4" muted playsinline style="object-position: center calc(50% + 20px); transform: scale(0.6);"></video></div>
+                </div>
+                <button class="carousel-control prev" id="prev">&#10216;</button>
+                <button class="carousel-control next" id="next">&#10217;</button>
+            </div>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( CAMPAIGN )</span>For the launch we built a poster campaign that turns the whole operation into a visual language: details of the scanned 3D subjects become recurring background patterns, while the layout follows MEET's rules without losing its own identity.</p>
+                </div>
+            </div>
+
+            <div class="case-study-2-column">
+                <video src="assets/images/3. ID gramma/img. 10.mp4" muted playsinline style="object-position: center center;"></video>
+                <video src="assets/images/3. ID gramma/img. 11.mp4" muted playsinline style="object-position: center center;"></video>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/3. ID gramma/img. 12.webp" alt="">
+
+        </div>
+
+        <div id="footer"></div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>

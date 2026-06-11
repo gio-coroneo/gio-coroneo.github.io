@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Giovanni Coroneo</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        img { pointer-events: none; }
+    </style>
+</head>
+
+<body>
+    <div id="mobile-blur">
+        <p>Placeholder: this layout is desktop-first.<span>(or resize your browser)</span></p>
+    </div>
+
+    <div id="energizer-bunny"></div>
+
+    <p id="case-study-intro" style="margin-bottom: 100px;"><span id="record-icon"></span><a href="index.html" style="text-decoration:none;color:inherit;">Giovanni Coroneo</a></p>
+
+    <!--Modal-->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+            <img id="expandedImg" alt="Expanded Image">
+        </div>
+    </div>
+
+    <!--Sidebar-->
+    <div id="sidebar">
+        <h1 class="case-study-title">About</h1>
+    </div>
+
+    <!--Content-->
+    <div id="content">
+        <div id="navbar">
+            <a href="index.html">Work</a>
+            <a href="about.html">About</a>
+            <a href="play.html">Play</a>
+            <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+        </div>
+
+        <div id="resume">
+            <div class="resume-columns" style="padding-right: 60px;">
+                <h2>Bio</h2>
+                <p style="line-height: 20px;letter-spacing: 0.2px;">I'm a designer and a Master's student in Communication Design at Politecnico di Milano, with a strong interest in information design<br>and brand design. I completed an internship at the DensityDesign<br>Lab to deepen my information design skills, and I'm now working<br>as an intern at I MILLE, a creative consultancy focused on branding.</p>
+
+                <p>I have a passion for technology and a genuine love of experimenting.<br>At I MILLE I'm training as a design technologist, exploring how best<br>to integrate AI into the design process. I'm especially drawn to AI and computational visual design to finding new ways to automate so as to streamline everyday visual design workflows.</p>
+
+                <p>You can reach me at <a href="mailto:coroneo.giovanni.2002@gmail.com">coroneo.giovanni.2002@gmail.com</a></p>
+            </div>
+            <div class="resume-columns">
+                <div>
+                    <h2>Experience</h2>
+                </div>
+                <div style="display: grid;gap: 5px;grid-template-columns: 1fr;">
+                    <div class="resume-entry">
+                        <span class="resume-title">Facilitator</span>
+                        <span class="resume-title">Digital Methods Initiative, UVA</span>
+                        <span class="resume-date">July 2026</span>
+                    </div>
+                    <div class="resume-entry">
+                        <span class="resume-title">Brand Designer &amp; AI Specialist</span>
+                        <span class="resume-title">I MILLE</span>
+                        <span class="resume-date">May 2026 – Present</span>
+                    </div>
+                    <div class="resume-entry">
+                        <span class="resume-title">Information Design Research Intern</span>
+                        <span class="resume-title">DensityDesign Lab, Politecnico di Milano</span>
+                        <span class="resume-date">February 2026 – May 2026</span>
+                    </div>
+                    <div class="resume-entry">
+                        <span class="resume-title">Facilitator</span>
+                        <span class="resume-title">Digital Methods Initiative, UVA</span>
+                        <span class="resume-date">January 2026</span>
+                    </div>
+                </div>
+            </div>
+            <div class="resume-columns">
+                <div>
+                    <h2>Education</h2>
+                </div>
+                <div>
+                    <div class="resume-entry">
+                        <span class="resume-title">MSc in Communication Design</span>
+                        <span class="resume-title">Politecnico di Milano</span>
+                        <span class="resume-date">2024 – Present</span>
+                    </div>
+                    <div class="resume-entry">
+                        <span class="resume-title">BSc in Communication Design (110/110)</span>
+                        <span class="resume-title">Politecnico di Milano</span>
+                        <span class="resume-date">2021 – 2024</span>
+                    </div>
+                    <div class="resume-entry">
+                        <span class="resume-title">Artistic High School Diploma (93/100)</span>
+                        <span class="resume-title">Liceo Artistico Fondazione Sacro Cuore</span>
+                        <span class="resume-date">2016 – 2021</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

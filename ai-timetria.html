@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI·timetria — Giovanni Coroneo</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body data-free-videos>
+    <div id="mobile-blur">
+        <p>Placeholder: this layout is desktop-first.<span>(or resize your browser)</span></p>
+    </div>
+
+    <p id="case-study-intro" style="margin-bottom: 100px;"><span id="record-icon"></span><a href="index.html" style="text-decoration:none;color:inherit;">Giovanni Coroneo</a></p>
+
+    <!--Modal-->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+          <img id="expandedImg" alt="Expanded Image">
+        </div>
+    </div>
+
+    <!--Sidebar-->
+    <div id="sidebar">
+        <h1 class="case-study-title">AI·timetria</h1>
+        <p><span class="case-study-small">(  Summary  )</span>An experimental information-design approach — a play on <i>altimetria</i>, altimetry — that maps which clues most reveal an image as AI-generated. Drawing on a sample of 40 people, it breaks an image into portions to surface which areas were most often read as a change.</p>
+
+        <p><span class="case-study-small">(  Scope  )</span>( Data Design, Brand Identity, Web Design )</p>
+
+        <p><span class="case-study-small">(  Context  )</span>Internship DensityDesign Lab, Politecnico di Milano.</p>
+
+        <p><span class="case-study-small">(  Repository  )</span><a href="https://github.com/coroneogiovanni2002-hash/AI-timetria" target="_blank" rel="noopener">AI·timetria — GitHub</a></p>
+
+        <p><span class="coming-soon">This case study is a work in progress.</span></p>
+    </div>
+
+    <!--Content-->
+    <div id="content">
+        <div id="navbar">
+            <a href="index.html">Work</a>
+            <a href="about.html">About</a>
+            <a href="play.html">Play</a>
+            <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+        </div>
+
+        <!--Case Study Content-->
+        <div id="case-study">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( Context )</span>At DensityDesign Lab I analysed an exhibition of several information-design projects, each with an evaluation area tracking what visitors grasped. The data from the team's AI slop project, one of the series, seemed inconclusive at first.</p>
+                    <p>In one section, people marked which parts of an image changed during a video. We couldn't name the objects chosen, only the area picked most often. AI·timetria is the protocol I built in Python to read its surveys and make the visual.</p>
+                </div>
+            </div>
+
+            <video src="assets/images/4. AI·timetria/img. 1.mp4" muted playsinline></video>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( The Problem )</span>Section 3 asked participants to spot inconsistencies in an AI-generated video. They compared two consecutive frames and marked by pen the objects that changed between them. Yet no objective method linked each mark to a specific object.</p>
+                    <p>So I shifted my perspective on the problem. Instead of starting from the objects, I started from the participants' marks: I isolated the flagged areas and overlaid them on the original frame, so I could infer which objects users noticed most.</p>
+                    <p style="font-weight: 1000;color: cornflowerblue;">Map the marks first, name the objects second.</p>
+                </div>
+            </div>
+
+            <video src="assets/images/4. AI·timetria/img. 2.mp4" muted playsinline></video>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( mapping )</span>Selected areas are treated separately from the objects they represent. Using contour lines, like in a topographic map, the visualization records how many times each portion was marked by participants: denser lines mean more selections.</p>
+                </div>
+            </div>
+
+            <div class="case-study-2-column">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/4. AI·timetria/img. 3.webp" alt="" style="border: 0.01px solid black; box-sizing: border-box;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/4. AI·timetria/img. 4.webp" alt="" style="background: white; border: 0.01px solid black; box-sizing: border-box;">
+            </div>
+
+            <div class="case-study-2-column">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/4. AI·timetria/img. 5.webp" alt="" style="border: 0.01px solid black; box-sizing: border-box;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/4. AI·timetria/img. 6.webp" alt="" style="border: 0.01px solid black; box-sizing: border-box;">
+            </div>
+
+            <div class="case-study-2-column">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/4. AI·timetria/img. 7.webp" alt="" style="border: 0.01px solid black; box-sizing: border-box;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/4. AI·timetria/img. 8.webp" alt="" style="border: 0.01px solid black; box-sizing: border-box;">
+            </div>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( naming )</span>Only afterwards is the original frame overlaid onto this frequency map. The most marked areas finally get a name, revealing which objects participants recognized most often as undergoing change between the two consecutive frames.</p>
+                </div>
+            </div>
+
+            <video src="assets/images/4. AI·timetria/img. 9.mp4" muted playsinline></video>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( Findings )</span>The most recognized area is the center of the table, marked 20 times in total. The second most selected object is the television stand, flagged 15 times. Both stand out clearly once the original frame is overlaid onto the frequency map.</p>
+                </div>
+            </div>
+
+            <video src="assets/images/4. AI·timetria/img. 10.mp4" muted playsinline></video>
+
+        </div>
+
+        <div id="footer"></div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>

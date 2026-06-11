@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Surname — Reference Template</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- jQuery + jQuery UI (used by script.js for .draggable) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <!-- p5.js (used by intro-sketch.js for the generative intro) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+</head>
+<body>
+
+  <!-- Intro generativa "stampa a strisce": il canvas (#intro-canvas) viene
+       creato e stilizzato fullscreen da intro-sketch.js; nessuna box contenitore. -->
+
+  <!-- Rettangolo di blur tra l'index (sotto) e il canvas dell'intro (sopra):
+       sfoca il sito e si de-blurra in 4s, poi viene rimosso. -->
+  <div id="intro-blur"></div>
+  <script>
+    // L'intro (canvas + blur) parte solo la PRIMA volta della sessione.
+    if (sessionStorage.getItem('introSeen')) {
+      var b0 = document.getElementById('intro-blur');
+      if (b0) b0.remove();                 // sessioni successive: niente blur
+    } else {
+      setTimeout(function () {
+        var b = document.getElementById('intro-blur');
+        if (b) b.remove();
+      }, 4000);
+    }
+  </script>
+
+
+    <div id="mobile-blur">
+        <p>This layout is designed for desktop first.<span>☺</span></p>
+    </div>
+
+  <div id="sidebar">
+    <p id="intro"><span id="record-icon"></span><span id="intro-name">Giovanni Coroneo</span> is a Designer and<br>MSc Communication Design candidate<br>at Politecnico di Milano.</p>
+    <p style="display: none;">Placeholder statement line — one or two sentences about approach and motivation.</p>
+    <p style="margin-top: 80px;display: none;"><span class="case-study-small">(  Interests  )</span>Interest one, interest two, interest three, interest four, interest five, interest six</p>
+    <p style="position: absolute; bottom: 0px; padding-right: 20px;"><span class="case-study-small">(  Note  )</span>This is a temporary website.<br>A full update is coming in August. ☺</p>
+  </div>
+
+  <!--PORTFOLIO-->
+  <div id="content">
+    <div id="navbar">
+        <a href="index.html">Work</a>
+        <a href="about.html">About</a>
+        <a href="play.html">Play</a>
+        <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+    </div>
+
+    <div id="filter">
+            <div class="dropup">I make <div id="filter-selection"></div></div>
+
+            <ul class="filter-select">
+                <li onclick="filterProjects('project', this)" data-label="Everything" class="filter-button">Everything</li>
+                <li onclick="filterProjects('filter-brand-identity', this)" data-label="Brand Identity" class="filter-button">Brand Identity</li>
+                <li onclick="filterProjects('filter-data-design', this)" data-label="Data Design" class="filter-button">Data Design</li>
+                <li onclick="filterProjects('filter-3d-design', this)" data-label="3D Design" class="filter-button">3D Design</li>
+                <li onclick="filterProjects('filter-ux-design', this)" data-label="UX Design" class="filter-button">UX Design</li>
+                <li onclick="filterProjects('filter-web-design', this)" data-label="Web Design" class="filter-button">Web Design</li>
+                <li onclick="filterProjects('filter-motion-design', this)" data-label="Motion Design" class="filter-button">Motion Design</li>
+                <li onclick="filterProjects('filter-speculative-design', this)" data-label="Speculative Design" class="filter-button">Speculative Design</li>
+                <li onclick="filterProjects('filter-experimental-tech', this)" data-label="Experimental Tech" class="filter-button">Experimental Tech</li>
+                <li onclick="filterProjects('filter-pack-design', this)" data-label="Pack Design" class="filter-button">Pack Design</li>
+                <li onclick="filterProjects('filter-editorial-design', this)" data-label="Editorial Design" class="filter-button">Editorial Design</li>
+            </ul>
+    </div>
+
+    <div id="intro-mobile">
+        <div id="intro-mobile-content"><span id="record-icon"></span><span id="intro-name">Giovanni Coroneo</span> is a Designer and<br>MSc Communication Design candidate at<br>Politecnico di Milano, interning at I MILLE.
+        </div>
+    </div>
+
+    <div id="hero">
+        <div id=""></div>
+        <div class="draggable-img">
+                <img class="draggable" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'/%3E">
+                <span class="tooltip">Tooltip placeholder text.<br><span style="font-size: 12px;color:gray;">Secondary caption placeholder.</span></span>
+            </div>
+        <p>Tagline placeholder.<br><span id="kaomoji">˚₊‧꒰ა ₍ᐢ<span style="color:#404040;">.  ̫.</span>ᐢ₎ ໒꒱ ‧₊˚</span></p>
+    </div>
+
+    <div id="work">
+        <!--Project 01-->
+        <div class="project filter-data-design filter-brand-identity filter-motion-design filter-ux-design">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img loading="lazy" src="assets/images/1. Not clean enough/0. index/img. 1.webp" alt="Not clean enough"></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/1. Not clean enough/0. index/img. 2.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/1. Not clean enough/0. index/img. 3.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/1. Not clean enough/0. index/img. 4.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/1. Not clean enough/0. index/img. 5.webp" alt="" style="object-position: center -138px;"></div>
+                </div>
+                <button class="carousel-control prev" id="prev">&#10216;</button>
+                <button class="carousel-control next" id="next">&#10217;</button>
+            </div>
+            <div class="project-details">
+                <a class="project-title" href="not-clean-enough.html">Not clean enough</a>
+                <span class="category">( Data Design, Brand Identity, Motion Design, UX Design )</span>
+            </div>
+        </div>
+
+        <!--Project 02-->
+        <div class="project filter-speculative-design filter-brand-identity filter-3d-design filter-ux-design">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><video src="assets/images/2. NJÖRD/0. index/img. 1.mp4" muted playsinline id="video-njord"></video></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/2. NJÖRD/0. index/img. 2.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/2. NJÖRD/0. index/img. 3.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/2. NJÖRD/0. index/img. 4.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/2. NJÖRD/0. index/img. 5.webp" alt=""></div>
+                </div>
+                <button class="carousel-control prev" id="prev">&#10216;</button>
+                <button class="carousel-control next" id="next">&#10217;</button>
+            </div>
+            <div class="project-details">
+                <a class="project-title" href="njord.html">NJÖRD</a>
+                <span class="category">( Speculative Design, Brand Identity, 3D Design, UX Design )</span>
+            </div>
+        </div>
+
+        <!--Project 03-->
+        <div class="project filter-experimental-tech filter-3d-design">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><video src="assets/images/3. ID gramma/0. index/img. 1.mp4" muted playsinline id="video-idgramma"></video></div>
+                    <div class="carousel-item"><video src="assets/images/3. ID gramma/0. index/img. 2.mp4" muted playsinline></video></div>
+                    <div class="carousel-item"><video src="assets/images/3. ID gramma/0. index/img. 3.mp4" muted playsinline></video></div>
+                    <div class="carousel-item"><video src="assets/images/3. ID gramma/0. index/img. 4.mp4" muted playsinline></video></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/3. ID gramma/0. index/img. 5.webp" alt=""></div>
+                </div>
+                <button class="carousel-control prev" id="prev">&#10216;</button>
+                <button class="carousel-control next" id="next">&#10217;</button>
+            </div>
+            <div class="project-details">
+                <a class="project-title" href="id-gramma.html">ID gramma</a>
+                <span class="category">( Experimental Tech, 3D Design )</span>
+            </div>
+        </div>
+
+        <!--Project 04-->
+        <div class="project filter-data-design filter-brand-identity filter-web-design">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active"><video src="assets/images/4. AI·timetria/0. index/img. 1.mp4" muted playsinline id="video-aitimetria"></video></div>
+                        <div class="carousel-item"><video src="assets/images/4. AI·timetria/0. index/img. 2.mp4" muted playsinline></video></div>
+                        <div class="carousel-item"><video src="assets/images/4. AI·timetria/0. index/img. 3.mp4" muted playsinline></video></div>
+                        <div class="carousel-item"><video src="assets/images/4. AI·timetria/0. index/img. 4.mp4" muted playsinline></video></div>
+                    </div>
+                    <button class="carousel-control prev" id="prev">&#10216;</button>
+                    <button class="carousel-control next" id="next">&#10217;</button>
+                </div>
+                <div class="project-details">
+                    <a class="project-title" href="ai-timetria.html">AI·timetria</a>
+                    <span class="category">( Data Design, Brand Identity, Web Design ) <span class="coming-soon">Case Study in Progress</span></span>
+                </div>
+        </div>
+
+        <!--Project 05 (with video item)-->
+        <div class="project filter-brand-identity filter-pack-design">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><video src="assets/images/5. Yorkshire Tea x World Cancer Day/0. index/img. 1.mp4" muted playsinline id="video-yorkshire"></video></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/5. Yorkshire Tea x World Cancer Day/0. index/img. 2.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/5. Yorkshire Tea x World Cancer Day/0. index/img. 3.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/5. Yorkshire Tea x World Cancer Day/0. index/img. 4.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/5. Yorkshire Tea x World Cancer Day/0. index/img. 5.webp" alt=""></div>
+                </div>
+                <button class="carousel-control prev" id="prev">&#10216;</button>
+                <button class="carousel-control next" id="next">&#10217;</button>
+            </div>
+            <div class="project-details">
+                <a class="project-title" href="yorkshire-tea.html">Yorkshire Tea x World Cancer Day</a>
+                <span class="category">( Brand Identity, Pack Design )</span>
+            </div>
+        </div>
+
+        <!--Project 06 (with video item)-->
+        <div class="project filter-editorial-design">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img loading="lazy" src="assets/images/6. Oltre il Diritto/0. index/img. 1.webp" alt="Oltre il Diritto"></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/6. Oltre il Diritto/0. index/img. 2.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/6. Oltre il Diritto/0. index/img. 3.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/6. Oltre il Diritto/0. index/img. 4.webp" alt=""></div>
+                    <div class="carousel-item"><img loading="lazy" src="assets/images/6. Oltre il Diritto/0. index/img. 5.webp" alt=""></div>
+                </div>
+                <button class="carousel-control prev" id="prev">&#10216;</button>
+                <button class="carousel-control next" id="next">&#10217;</button>
+            </div>
+            <div class="project-details">
+                <a class="project-title" href="oltre-il-diritto.html">Oltre il Diritto</a>
+                <span class="category">( Editorial Design )</span>
+            </div>
+        </div>
+
+        <!--END Projects-->
+    </div>
+
+    <div id="footer"></div>
+  </div>
+
+<script src="script.js"></script>
+<!-- Intro generativa "stampa a strisce": crea il canvas #intro-canvas come overlay,
+     mostra il clip per ~6s e poi lo fa scorrere verso l'alto rivelando il sito. -->
+<script src="intro-sketch.js"></script>
+</body>
+</html>

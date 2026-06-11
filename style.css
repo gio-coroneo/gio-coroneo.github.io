@@ -1,0 +1,845 @@
+/* ============================================================================
+   REFERENCE BUILD — typographic/layout clone (placeholder content)
+   Layout, sizes, line-heights, letter-spacing, grids: kept 1:1 with original.
+   Only the FONT SOURCES and the IMAGE/TEXT CONTENT are substituted.
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   FONTS
+   Real typefaces loaded from /fonts. Four weights were supplied and are wired
+   to the families actually used by this stylesheet:
+       Favorit-Light.otf            -> FavoritLight            (var --sans)
+       times-now-light.otf          -> TimesNowLight           (var --serif)
+       NHaasGroteskTXPro-55Rg.ttf   -> NeueHaasGroteskRegular  (.category)
+       NHaasGroteskDSPro-45Lt.ttf   -> NeueHaasGroteskLight    (.case-study-small, résumé)
+   The remaining weight names below were declared in the original CSS but are
+   not used by any active rule; they point to the nearest supplied file so the
+   typeface stays consistent if you start using them. Drop in the matching
+   files (Favorit Book/Regular/Medium/Bold, Times Now Extra Light, NHG Italic)
+   and update those src() lines to use them.
+
+   A system fallback is appended after each web font so text still renders if a
+   file is missing.
+--------------------------------------------------------------------------- */
+@font-face { font-family: FavoritLight;            src: url(assets/fonts/Favorit-Light.otf) format('opentype'); }
+@font-face { font-family: TimesNowLight;           src: url(assets/fonts/times-now-light.otf) format('opentype'); }
+@font-face { font-family: NeueHaasGroteskRegular;  src: url(assets/fonts/NHaasGroteskTXPro-55Rg.ttf) format('truetype'); }
+@font-face { font-family: NeueHaasGroteskLight;    src: url(assets/fonts/NHaasGroteskDSPro-45Lt.ttf) format('truetype'); }
+
+/* not used by active rules — mapped to nearest supplied file for now */
+@font-face { font-family: Favorit;                 src: url(assets/fonts/Favorit-Light.otf) format('opentype'); }
+@font-face { font-family: FavoritRegular;          src: url(assets/fonts/Favorit-Light.otf) format('opentype'); }
+@font-face { font-family: FavoritMedium;           src: url(assets/fonts/Favorit-Light.otf) format('opentype'); }
+@font-face { font-family: FavoritBold;             src: url(assets/fonts/Favorit-Light.otf) format('opentype'); }
+@font-face { font-family: TimesNowExtraLight;      src: url(assets/fonts/times-now-light.otf) format('opentype'); }
+@font-face { font-family: NeueHaasGroteskItalic;   src: url(assets/fonts/NHaasGroteskTXPro-55Rg.ttf) format('truetype'); font-style: italic; }
+
+:root {
+    --black: #000000;
+    --lightGrey: rgb(0, 0, 0, 0.25);
+    --techBlue: #3c73ff;
+
+    --link: #000000;
+
+    /*--serif: 'Times New Roman', 'Times New Roman', Times, serif;
+    --sans: FavoritRegular;*/
+    --serif: TimesNowLight;
+    --sans: FavoritLight;
+
+    /* placeholder fill */
+    --ph: #e4e4e4;
+}
+::selection {
+    background-color: #000;
+    color: #fff;
+}
+html {
+    scrollbar-color: var(--lightGrey) #ffffff;
+    scrollbar-width: thin;
+}
+body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--serif);
+}
+a {
+    text-decoration: none;
+    color: var(--link);
+}
+h1 {
+    font-family: var(--serif);
+}
+.button {
+    border: 1px solid black;
+    padding: 5px 10px;
+    width: fit-content;
+    color: black;
+    transition: all 0.5s ease-in-out;
+    border-radius: 5px;
+}
+.button:hover {
+    background-color: black;
+    color: white;
+}
+#sidebar {
+    display: block;
+    width: 20vw;
+    border-right: 1px solid lightgray;
+    height: calc(100vh - 20px);
+    margin: 0 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 10px;
+    left: 0;
+    overflow-y: scroll;
+}
+#sidebar img {
+    width: 100%;
+}
+#intro {
+    margin: 0;
+    padding: 0;
+}
+#intro-mobile {
+    display: none;
+}
+#case-study-intro {
+    position: fixed;
+    margin: 0;
+    padding: 0 20px;
+    margin-top: 10px;
+
+    font-family: var(--sans);
+    font-size: 14px;
+
+    z-index: 100;
+}
+#intro-name {
+    font-family: var(--sans);
+    font-size: 14px;
+}
+#record-icon {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    /*background-color: red;*/
+    background-color: rgb(255, 25, 0);
+    border-radius: 50%;
+    animation: blink 4s ease infinite;
+    margin-top:3.5px;
+    margin-right: 15px;
+}
+/* Custom cursor: black dot, turns red over clickable elements */
+* { cursor: none; }
+#cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-color: #000000;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    transition: background-color 0.15s ease;
+}
+#cursor-dot.hovering {
+    background-color: rgb(255, 25, 0);
+}
+@keyframes blink {
+    0% {opacity: 1;}
+    40% {opacity: 0.2;}
+    80% {opacity: 1;}
+    100% {opacity: 1;}
+  }
+.small-arrow {
+    font-size: 16px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffffa9;
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+  }
+  
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  
+  .modal-content img {
+    width: 100%;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 0px;
+  }
+  
+  .modal-content img {
+    transition: all 0.3s ease;
+  }
+
+  .modal-content video {
+    width: 100%;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 0px;
+    display: block;
+  }
+
+/* RIGHT */
+#navbar {
+    position: fixed;
+    width: calc(75vw - 40px);
+    box-sizing: border-box;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    top: 10px;
+    padding: 0 20px 0 0;
+    z-index: 100;
+}
+#navbar a {
+    text-decoration: none;
+    color: var(--black);
+    font-size: 12px;
+}
+
+/* FILTER */
+#filter {
+    border: 1px solid #000000;
+    width: 230px;
+    padding: 8px 10px;
+    position: fixed;
+    bottom: 20px;
+    justify-self: center;
+    z-index: 150;
+    background-color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    font-size: 16px;
+    /*backdrop-filter: blur(5px);*/
+}
+#filter:hover {
+    opacity: 1;
+}
+.filter-select {
+    display: none;
+    width: 252px;
+    bottom: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    left: -1px;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--black);
+
+}
+.filter-select li {
+    all: unset;
+    list-style: none;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    display: block;
+    cursor: pointer;
+}
+.filter-select li:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+.dropup {
+    display: flex;
+    flex-direction: row;
+}
+#filter-selection {
+    border-bottom: 1px solid #000000;
+    display: block;
+    margin-left: 5px;
+    width: 180px;
+}
+#filter:hover .filter-select {
+    display: block;
+}
+.project.hidden {
+  display: none !important;
+}
+
+/* CONTENT */
+#content {
+    display: block;
+    width: calc(80vw - 0px);
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 20px 20px 20px 35px;
+    box-sizing: border-box;
+
+    background-color: rgba(0, 128, 0, 0);
+}
+
+#content img {
+    width: 100%;
+    border-radius: 0px;
+}
+
+/* HERO */
+#hero {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 75px 0;
+    border-bottom: 1px solid lightgray;
+}
+#hero img {
+    width: 200px;
+}
+.draggable {
+    cursor: pointer;
+    user-select:none;
+    position: relative;
+}
+.tooltip {
+    position:absolute;
+    background-color:#ffffff97;
+    border-radius: 5px;
+    color:#000000;
+    padding:5px 10px;
+    text-align:left;
+    z-index:1000;
+    visibility:hidden;
+    width:auto;
+    max-width:200px;
+    backdrop-filter: blur(5px);
+}
+#kaomoji {
+    margin:5px;
+    display: block;
+    font-family: sans-serif;
+    text-align: center;
+    color:var(--lightGrey);
+    animation: kaomoji 1s ease-in-out infinite;
+}
+@keyframes kaomoji {
+    0% {
+        transform: translateX(0px) translateY(0px);
+    }
+    20% {
+        transform: translateX(5px) translateY(5px);
+    }
+    50% {
+        transform: translateX(10px) translateY(0px);
+    }
+    70% {
+        transform: translateX(0px) translateY(3px);
+    }
+    85% {
+        transform: translateX(10px) translateY(3px);
+    }
+    100% {
+        transform: translateX(0px) translateY(0px);
+    }
+}
+/* PORTFOLIO GRID */
+#work {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding-top: 20px;
+    gap: 15px;
+}
+
+/* PROJECT ITEM */
+.project {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.25s ease-in-out;
+    margin-bottom: 20px;
+}
+.project:hover {
+    transform: scale(1.01);
+}
+.project p {
+    margin-bottom: 0px;
+}
+.project img,
+.project video {
+    width: 100%;
+    height: auto;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+.project-title {
+    font-size: 24px; /*30px*/
+    font-family: var(--serif);
+    line-height: 28px; /*34px*/
+    text-decoration: none;
+    color: var(--black);
+
+    position: relative;
+
+    background: linear-gradient(currentColor, currentColor) bottom / 0 0.75px no-repeat;
+    transition: background-size 0.5s;
+
+    background-position: left bottom;
+    margin-bottom:55px;
+} 
+
+.project:hover .project-title {
+	background-size: 100% 0.75px;
+}
+.project-title-no-link {
+    font-size: 24px; /*30px*/
+    font-family: var(--serif);
+    line-height: 28px; /*34px*/
+    text-decoration: none;
+    color: var(--black);
+}
+.category {
+    display: block;
+    color: #a0a0a0;
+    list-style: none;
+    font-size: 12px;
+    line-height: 14px;
+    font-family: NeueHaasGroteskRegular;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+}
+.coming-soon {
+    color: var(--techBlue);
+    opacity: 0.9;
+    letter-spacing: 0;
+    animation: comingSoon 3s infinite;
+}
+@keyframes comingSoon {
+    0% {
+        opacity: 0.9;
+    }
+    40% {
+        opacity: 0.25;
+    }
+    80% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 0.9;
+    }
+}
+
+/* CAROUSEL */
+.carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 0px;
+}
+
+.carousel-inner {
+    display: flex;
+    width: 100%;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    aspect-ratio: 16 / 9;
+    will-change: transform;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+}
+
+.carousel img {
+    width: 100%;
+    display: block;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /*background: rgba(0, 0, 0, 0.233);*/
+    background: rgba(0, 0, 0, 0);
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: none;
+    font-size: 40px;
+    border-radius: 5px;
+}
+
+.prev {
+    left: 8px;
+}
+
+.next {
+    right: 8px;
+}
+
+/* CASE STUDY */
+#case-study {
+    margin-top: 94px;
+}
+#case-study .carousel {
+    margin-bottom: 10px;
+}
+#case-study img {
+    margin-bottom: 5px;
+}
+#case-study video {
+    border-radius: 0px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 9px;
+}
+#case-study video.video-lowered {
+    object-position: center calc(50% + 140px);
+}
+#case-study video.video-native {
+    aspect-ratio: auto;
+    object-fit: contain;
+    height: auto;
+}
+a {
+    color: var(--techBlue);
+}
+.case-study-title {
+    margin-top: 100px;
+    font-size: 24px;
+    color: var(--black);
+    font-family: var(--serif);
+    font-weight: 400;
+    margin-bottom: 50px;
+}
+#case-study h2 {
+    color: var(--black);
+    font-family: var(--serif);
+    font-weight: 400;
+}
+.case-study-small {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-family: NeueHaasGroteskLight;
+    color: var(--black);
+    margin-right: 20px;
+    letter-spacing: 0.75px;
+}
+.case-study-description {
+    margin-top: 20px;
+    border-top: 1px solid var(--lightGrey);
+}
+.case-study-2-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.case-study-2-column img,
+.case-study-2-column video,
+.case-study-4-column img,
+.case-study-4-column video {
+    margin-bottom: 0;
+}
+.case-study-4-column {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.case-study-masonry-grid {
+    column-count: 3;
+    gap: 10px;
+    width:100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    
+}
+.case-study-masonry-grid p {
+    margin: 2px 0 10px 0;
+}
+.case-study-masonry-grid div {
+    break-inside: avoid;
+}
+.case-study-text {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+.quote {
+    font-size: 30px;
+    color: var(--lightGrey);
+}
+/* FOOTER */
+#footer {
+    display: block;
+    padding: 20px;
+    height: 100px;
+}
+
+/* ABOUT */
+#resume {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    width: 100%;
+    gap: 20px;
+    margin-top: 90px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--lightGrey);
+}
+#books {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 20px;
+    row-gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--lightGrey);
+}
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    flex-wrap: nowrap;
+    width: 100%;
+    grid-column: span 2;
+    padding-bottom: 20px;
+}
+.books-grid img {
+    width: auto;
+    border-radius: 0px !important;
+    border: 0.5px solid var(--lightGrey);
+    height: 100%;
+}
+.resume-entry {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+.resume-title {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    font-family: NeueHaasGroteskLight;
+}
+.resume-date {
+    font-family: NeueHaasGroteskLight;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: gray;
+}
+.resume-columns h2 {
+    font-weight: 300;
+    margin: 0 0 20px 0;
+}
+#about-grid div:hover {
+    transform: rotate(5deg);
+}
+.masonry-grid-image-caption {
+    font-size: 14px;
+}
+/* ENERGIZER BUNNY */
+#energizer-bunny-link {
+    cursor: pointer;
+    border-bottom: 1px solid var(--techBlue);
+}
+#energizer-bunny {
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
+}
+/* MOBILE BLUR */
+#mobile-blur {
+    display: none;
+    position: fixed;
+    height:100vh;
+    width: 100vw;
+    background-color: #ffffffa2;
+    backdrop-filter: blur(7px);
+    z-index: 10000;
+    top:0;
+    left:0;
+    justify-items: center;
+    align-content: center;
+    font-size: 36px;
+    padding: 5vh 5vw;
+    box-sizing: border-box;
+    line-height: 38px;
+    text-align: center;
+}
+#mobile-blur span {
+    display: block;
+    font-size: 28px;
+}
+@media screen and (max-width: 800px) {
+    #mobile-blur {
+        display: block;
+    }
+    #hero {
+        display: none;
+        height: 150px;
+    }
+    #hero p {
+        width: 150px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    #hero img {
+        width: 100px;
+    }
+    #content {
+        display: block;
+        height: fit-content;
+        position: relative;
+        padding: 20px 20px 20px 20px;
+        box-sizing: border-box;
+
+        background-color: rgba(0, 128, 0, 0);
+
+        width: calc(100vw - 0px);
+    }
+    #case-study-container {
+        display: flex;
+        flex-direction: column;
+    }
+    #case-study {
+        margin-top: auto;
+    }
+    #sidebar {
+        display: block;
+        position: relative;
+        border: none;
+        width: calc(100vw - 20px);
+
+        height: fit-content;
+        margin: 0 20px;
+        box-sizing: border-box;
+        overflow-y: scroll;
+    }
+    #work {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    #navbar {
+        width: 100vw;
+        box-sizing: content-box;
+
+        width: calc(100vw - 40px);
+    }
+    #navbar a {
+        font-size: 14px;
+    }
+    #filter {
+        display: none;
+    }
+    #intro-mobile {
+        display: block;
+        text-align: left !important;
+        padding: 150px 0 10px 0;
+        border-bottom: 0.5px solid var(--black);
+        width: 100vw;
+        box-sizing: border-box;
+    }
+    #intro-mobile-content {
+        width: 240px;
+    }
+    .case-study-2-column, .case-study-text {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 5px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+    #case-study-intro {
+        margin-top: 60px;
+        position: relative;
+    }
+  }
+
+/* INTRO CANVAS (index.html only — once per session)
+   La grafica generativa "stampa a strisce" (intro-sketch.js) È l'overlay:
+   nessuna box contenitore. Il canvas copre la pagina e a fine clip scorre
+   verso l'alto (translateY). Le zone near-white del video sono trasparenti,
+   così il sito sottostante traspare attraverso di esse. */
+/* Rettangolo di blur: sta TRA il sito (sotto) e il canvas dell'intro (#intro-canvas, sopra).
+   Sfoca l'index e si de-blurra progressivamente in 4s, poi un timer lo rimuove. */
+#intro-blur {
+  position: fixed;
+  inset: 0;
+  z-index: 99997;                       /* sotto #intro-canvas (99998), sopra il sito */
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: introDeblur 4s ease forwards;
+  will-change: backdrop-filter;
+}
+/* 0–1s: blur pieno (4px). 1–4s: de-blur fino a 0. (25% di 4s = 1s) */
+@keyframes introDeblur {
+  0%, 25% { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  100%    { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+}
+
+#intro-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 99998;
+  display: block;
+  object-fit: cover;            /* il canvas 1920×1080 (16:9) copre lo schermo */
+  background: transparent;
+  will-change: transform;
+  pointer-events: auto;         /* primi 3,5s blocca i click; poi intro-sketch.js lo porta a none */
+}
+
+/* ============================================================================
+   PLACEHOLDERS (reference build only — remove when adding real media)
+   Every <img>/<video> is empty + transparent; this paints it as a neutral
+   grey rectangle. CSS aspect-ratios above keep the exact original proportions.
+   ============================================================================ */
+img,
+.ph {
+    background-color: var(--ph);
+    background-image: repeating-linear-gradient(45deg,
+        rgba(0, 0, 0, 0.05) 0 8px,
+        rgba(0, 0, 0, 0) 8px 16px);
+}
+/* video placeholders: match the inline 16/9 boxes used in the markup */
+.ph-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}

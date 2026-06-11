@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not clean enough — Giovanni Coroneo</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+</head>
+<body>
+    <div id="mobile-blur">
+        <p>Placeholder: this layout is desktop-first.<span>(or resize your browser)</span></p>
+    </div>
+
+    <p id="case-study-intro" style="margin-bottom: 100px;"><span id="record-icon"></span><a href="index.html" style="text-decoration:none;color:inherit;">Giovanni Coroneo</a></p>
+
+    <!--Modal-->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+          <img id="expandedImg" alt="Expanded Image">
+        </div>
+    </div>
+
+    <!--Sidebar-->
+    <div id="sidebar">
+        <h1 class="case-study-title"><i>Not clean enough:</i><br>Study of comments on clean<br>girl influencers'videos.</h1>
+        <p><span class="case-study-small">(  Summary  )</span>I designed an information design installation that collects comments from people who don't fit the "clean girl" aesthetic, to show how a seemingly neutral trend is actually normative and creates frustration, inadequacy, and exclusion.</p>
+
+        <p><span class="case-study-small">(  Scope  )</span>( Data Design, Brand Identity, Motion Design, UX Design )</p>
+
+        <p><span class="case-study-small">(  Live Website  )</span><a href="https://streambeefvibes.densitydesign.org/" target="_blank">Stream Beef Vibes</a></p>
+
+
+    </div>
+
+    <!--Content-->
+    <div id="content">
+        <div id="navbar">
+            <a href="index.html">Work</a>
+            <a href="about.html">About</a>
+            <a href="play.html">Play</a>
+            <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+        </div>
+
+        <!--Case Study Content-->
+        <div id="case-study">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( About the Installation )</span>The analysis focuses on comments from users who say<br>they cannot conform to the "clean girl" aesthetic, naming what feels impossible.<br>The installation uses this to expose the normative nature of a seemingly neutral trend.</p>
+                    <p>Posing as natural, the aesthetic in fact breeds frustration, inadequacy, and exclusion. These testimonies let us identify and connect the main reasons for exclusion, revealing the mechanisms through which the trend generates insecurity.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 1.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <p><span class="case-study-small">( Exhibition layout )</span>The installation is divided into two main areas:<br><br>1. Exhibition area – the installation itself, dedicated to displaying the comments.<br>2. Evaluation area – a space to collect feedback on what viewers actually grasped.</p>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 2.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( Introduction )</span>The installation opens with a video in four sections, one for each of the four macro-categories that emerged from the analysis. Each is embodied by an AI-generated model: in every video gestures and objects convey the spirit of the four issues.</p>
+                </div>
+            </div>
+
+            <div class="case-study-4-column">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 3.webp" alt="" style="aspect-ratio: 9/16;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 4.webp" alt="" style="aspect-ratio: 9/16;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 5.webp" alt="" style="aspect-ratio: 9/16;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 6.webp" alt="" style="aspect-ratio: 9/16;">
+            </div>
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p><span class="case-study-small">( Audience Experience )</span>By interacting directly with the visualization, visitors gradually engage — at different levels — with the comments, and thus with the "gaps" expressed by those who do not see themselves reflected in the main trend.</p>
+                </div>
+            </div>
+
+            <div style="width:100%; margin-bottom:5px; overflow:hidden;">
+                <video src="assets/images/1. Not clean enough/img. 7.mp4" autoplay muted playsinline id="video-cleangirl" style="display:block; width:100%; height:auto; aspect-ratio:16/9; margin:0;"></video>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 8.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p>The audience gradually comes to understand that these gaps fall into a number of broad macro-categories, and observes each one individually, one at a time. Next, they slowly approach the Evaluation Area.</p>
+                </div>
+            </div>
+
+            <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 9.webp" alt="">
+
+            <div class="case-study-text">
+                <h2></h2>
+                <div>
+                    <p>Visitors carefully follow the step-by-step instructions printed above the console and apply to a set of "raw," uncategorized comments the same categorization logic that was originally used in designing the visualization.</p>
+                    <p style="font-weight: 1000;color: cornflowerblue;">The goal is to check whether they have understood the underlying logic.</p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 5px;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 10.webp" alt="" style="aspect-ratio: 56/75; width: calc(50% - 5px); margin-bottom: 0;">
+                <img loading="lazy" onclick="openModal(this)" src="assets/images/1. Not clean enough/img. 11.webp" alt="" style="aspect-ratio: 56/75; width: calc(50% - 5px); margin-bottom: 0;">
+            </div>
+
+        </div>
+
+        <div id="footer"></div>
+    </div>
+
+<script src="script.js"></script>
+<script>
+    const vcg = document.getElementById('video-cleangirl');
+    if (vcg) {
+        vcg.addEventListener('ended', () => { vcg.currentTime = 0; vcg.play(); });
+    }
+</script>
+</body>
+</html>

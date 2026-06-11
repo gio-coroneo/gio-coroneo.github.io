@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play — Giovanni Coroneo</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        img, video { pointer-events: none; }
+        .case-study-masonry-grid p { margin-bottom: 15px; }
+    </style>
+</head>
+<body data-free-videos>
+    <div id="mobile-blur">
+        <p>Placeholder: this layout is desktop-first.<span>(or resize your browser)</span></p>
+    </div>
+
+    <!--Modal-->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+          <img id="expandedImg" alt="Expanded Image">
+        </div>
+    </div>
+
+    <!--Sidebar-->
+    <div id="sidebar">
+        <p id="intro"><span id="record-icon"></span><span id="intro-name">Giovanni Coroneo</span> is a Designer and<br>MSc Communication Design candidate<br>at Politecnico di Milano.</p>
+        <h1 class="case-study-title">Play</h1>
+        <p><span class="case-study-small">(  Summary  )</span>This will be my playground: experiments, side projects and things I've made along the way.</p>
+    </div>
+
+    <!--Content-->
+    <div id="content">
+        <div id="navbar">
+            <a href="index.html">Work</a>
+            <a href="about.html">About</a>
+            <a href="play.html">Play</a>
+            <a href="assets/images/8. CV/CV_Giovanni_Coroneo.pdf" download style="color: var(--techBlue);">CV<span style="display:inline-block;transform:scaleY(-1);position:relative;top:-1.8px;">^</span></a>
+        </div>
+
+        <div style="margin-top: 150px;padding-bottom: 100px;display: grid;grid-template-columns: repeat(3, 1fr);gap: 10px;align-items: start;" class="case-study-masonry-grid">
+            <div>
+                <img loading="lazy" onclick="openModal(this)" alt="" src="assets/images/7. Play/img. 1.webp">
+                <p><i>Don't Stop Smiling</i> is a mini thriller made with AI to test how far today's generative models can really go, and<br>how each handles the same story. <a href="https://vimeo.com/1200255871?share=copy&fl=sv&fe=ci#t=0" target="_blank">View Here <span style="line-height:0;">↗</span></a></p>
+                <img loading="lazy" onclick="openModal(this)" alt="" src="assets/images/7. Play/img. 2.webp">
+                <p><i>Adapted or Forced?</i> is a poster that questions whether graphic content adapts or is forced to fit new media. Selected as one of the winners. <a href="https://www.designdellacomunicazione.polimi.it/20anni/" target="_blank">View Here <span style="line-height:0;">↗</span></a></p>
+                <img alt="" style="opacity:0.5;" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%201%201'/%3E">
+                <p>There's more to come...</p>
+            </div>
+            <div>
+                <img loading="lazy" onclick="openModal(this)" alt="" src="assets/images/7. Play/img. 3.webp">
+                <p><i>Catch Us If You Can</i> is a save-the-date trailer made in stop motion for my sister's wedding, lovingly copying the<br>Catch Me If You Can opening titles. <a href="https://vimeo.com/1200256726?share=copy&fl=sv&fe=ci" target="_blank">View Here <span style="line-height:0;">↗</span></a></p>
+                <img loading="lazy" onclick="openModal(this)" alt="" src="assets/images/7. Play/img. 4.webp">
+                <p><i>Face Replacement for Editorial Photography</i> explores how to swap faces cleanly and convincingly across high-end professional editorial photo shoots. <a href="https://diariosintetico.substack.com/p/face-replacement-per-fotografia-editoriale" target="_blank">View Here <span style="line-height:0;">↗</span></a></p>
+            </div>
+            <div>
+                <video src="assets/images/7. Play/img. 5.mp4" autoplay muted loop playsinline style="width:100%; height:auto;"></video>
+                <p><i>Diario Sintetico</i>, logbook on AI: a somewhat disorganised account of our experiments: for us, our colleagues and designers looking for something useful. <a href="https://diariosintetico.substack.com/about" target="_blank">View Here <span style="line-height:0;">↗</span></a></p>
+                <img loading="lazy" onclick="openModal(this)" alt="" src="assets/images/7. Play/img. 6.webp">
+                <p><i>Romagna Mia</i> is a save-the-date trailer for my brother's wedding, a journey through its real landscapes into<br>one sharp, defined graphic style. <a href="https://vimeo.com/1200260135?share=copy&fl=sv&fe=ci#t=0" target="_blank">View Here <span style="line-height:0;">↗</span></a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
