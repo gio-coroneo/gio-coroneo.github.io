@@ -254,7 +254,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('video').forEach(v => {
         const src = v.getAttribute('src') || '';
         v.muted = true;
-        if (pageFreeAll || src.includes('clip 2 (copertina)') || src.includes('6. Density')) {
+        // Any video that opts into native looping (loop attribute) runs free and independent.
+        if (pageFreeAll || v.hasAttribute('loop') || src.includes('clip 2 (copertina)') || src.includes('6. Density')) {
             freeVideos.push(v);
         } else {
             syncVideos.push(v);
