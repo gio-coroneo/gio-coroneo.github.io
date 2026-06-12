@@ -349,29 +349,44 @@ const sketch = (p) => {
       if (exited || started) return;
       started = true;
       const pr = videoEl.elt.play();
-      videoEl.elt.playbackRate = 1.5;  // 6s di clip → ~4s di animazione, poi si ferma e resta
+      videoEl.elt.playbackRate = 1.5;  // clip accorciata, poi si ferma e resta
       p.loop();
       if (pr && pr.then) {
         // segniamo l'intro come "vista" SOLO quando parte davvero, così un
         // autoplay bloccato non la salta per il resto della sessione.
         pr.then(() => { try { sessionStorage.setItem('introSeen', '1'); } catch (e) {} })
-          .catch(() => { started = false; armGesture(); });
+          .catch(() => { started = false; });   // bloccato: resta in attesa del gesto (già armato sotto)
       } else {
         try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
       }
     }
-    // Fallback mobile: se l'autoplay è bloccato, l'intro parte al primo tocco/click.
+    // Gesto di fallback armato SUBITO (non solo se play() viene rifiutato): se
+    // l'autoplay è bloccato — tipico su mobile — il primo tocco/click avvia l'intro.
     function armGesture() {
       function go() {
         window.removeEventListener('touchend', go);
         window.removeEventListener('click', go);
         startPlayback();
       }
-      window.addEventListener('touchend', go, { once: true });
-      window.addEventListener('click', go, { once: true });
+      window.addEventListener('touchend', go);
+      window.addEventListener('click', go);
     }
-    videoEl.elt.oncanplay = () => { if (!exited) startPlayback(); };
-    videoEl.elt.onended = freezeIntro; // fine naturale della clip → congela e resta sullo schermo
+    armGesture();
+
+    // Avvio PROATTIVO. Prima la riproduzione partiva SOLO su 'canplay': su mobile
+    // (iOS in particolare) un video muted con preload non sempre bufferizza da
+    // solo fino a 'canplay' senza interazione, quindi quell'evento non arrivava
+    // mai e l'animazione non partiva (si vedeva solo il primo frame). Marcando il
+    // video come autoplay (muted) e chiamando play() subito, è il browser ad
+    // avviare buffering e riproduzione; 'canplay'/'loadeddata' restano come
+    // trigger ridondanti, e il gesto qui sopra copre il caso di autoplay bloccato.
+    videoEl.elt.autoplay = true;
+    videoEl.elt.setAttribute('autoplay', '');
+    videoEl.elt.oncanplay    = () => { if (!exited) startPlayback(); };
+    videoEl.elt.onloadeddata = () => { if (!exited) startPlayback(); };
+    videoEl.elt.onended      = freezeIntro; // fine naturale della clip → congela e resta sullo schermo
+    try { videoEl.elt.load(); } catch (e) {}
+    startPlayback();
   };
 
   /* ================= loop video ================= */

@@ -61,11 +61,9 @@
         ? 'assets/images/0. Index/intro-poster-mobile.webp?v=1'
         : 'assets/images/0. Index/intro-poster.webp?v=1';
       document.body.appendChild(ph);
-      // rete di sicurezza: se il canvas live non parte, togli comunque il poster.
-      setTimeout(function () {
-        var p = document.getElementById('intro-poster');
-        if (p) p.remove();
-      }, 8000);
+      // Il poster NON viene rimosso a tempo: lo toglie intro-sketch.js appena il
+      // canvas live disegna il primo frame (swap impercettibile) o se l'intro
+      // fallisce. Così la grafica marker non sparisce mai prima dell'animazione.
     })();
   </script>
 
@@ -245,6 +243,6 @@
 <script src="script.js?v=5"></script>
 <!-- Intro generativa "stampa a strisce": crea il canvas #intro-canvas come overlay,
      mostra il clip per ~6s e poi lo fa scorrere verso l'alto rivelando il sito. -->
-<script src="intro-sketch.js?v=11"></script>
+<script src="intro-sketch.js?v=12"></script>
 </body>
 </html>
