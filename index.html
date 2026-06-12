@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+
+    <!-- Preload dell'intro video DESKTOP: il <video> dell'intro è creato via JS
+         (intro-sketch.js), quindi il browser non lo scoprirebbe da solo e lo
+         scaricherebbe tardi, dopo gli script CDN bloccanti → la grafica marker
+         compariva qualche istante dopo il sito. Avviando qui il download in
+         parallelo (prima di tutto il resto), il primo frame è pronto già al
+         primo paint e il marker è subito visibile. Solo desktop via media query. -->
+    <link rel="preload" as="video" type="video/mp4" href="assets/images/0. Index/img. 1.mp4" media="(min-width: 801px)" fetchpriority="high">
+
     <title>Giovanni Coroneo — Portfolio</title>
     <link rel="stylesheet" href="style.css?v=7">
 

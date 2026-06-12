@@ -293,6 +293,10 @@ const sketch = (p) => {
     art    = p.createGraphics(GRID_W, GRID_H); art.pixelDensity(1);
 
     videoEl = p.createVideo(INTRO_SRC);
+    // Buffering ansioso: riusa i byte già scaricati dal <link rel="preload"> in
+    // <head>, così il primo frame è pronto subito e il marker non compare in ritardo.
+    videoEl.elt.preload = 'auto';
+    videoEl.elt.setAttribute('preload', 'auto');
     // NON usare hide()/display:none: iOS NON riproduce in autoplay un video con
     // display:none (né, spesso, uno di 1px che considera "non visibile"), quindi
     // p5 non potrebbe campionarne i frame. Lo teniamo a piena dimensione e quasi
