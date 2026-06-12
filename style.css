@@ -908,7 +908,8 @@ a {
    trasparenti lasciano intravedere la pagina; i primi 3s blocca i click
    (pointer-events:auto), poi showMobileIntro() li lascia passare. La WebP
    (loop singolo) parte una volta, si congela sull'ultimo frame e RESTA. */
-#intro-webp {
+#intro-webp,
+#intro-video {
   position: fixed;
   top: 0;
   left: 0;

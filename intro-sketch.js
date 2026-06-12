@@ -355,19 +355,65 @@ const sketch = (p) => {
    sketch p5, che su mobile non riusciva a campionare il video. */
 function showMobileIntro() {
   try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+
+  // Per la massima fluidità usiamo un VIDEO con alpha decodificato in hardware
+  // (come il desktop), con il codec giusto per piattaforma:
+  //   - iOS/Safari: HEVC con alpha (unico formato video alpha che iOS riproduce)
+  //   - Android/Chrome: VP9 con alpha (WebM)
+  // Se il video non è disponibile o l'autoplay è bloccato, si ripiega sulla WebP
+  // animata (che parte sempre). Comportamento identico al desktop: parte una
+  // volta a 1.5×, si congela sull'ultimo frame e RESTA; click bloccati per 3s.
+  var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  var v = document.createElement('video');
+  v.id = 'intro-video';
+  v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
+  v.playsInline = true; v.setAttribute('playsinline', '');
+  v.setAttribute('preload', 'auto');
+  v.loop = false;
+
+  var src = document.createElement('source');
+  if (isIOS) {
+    src.src = 'assets/images/0. Index/intro-mobile.mov?v=1';   // HEVC-alpha (da generare su Mac)
+    src.type = 'video/mp4; codecs="hvc1"';
+  } else {
+    src.src = 'assets/images/0. Index/intro-mobile.webm?v=1';  // VP9-alpha
+    src.type = 'video/webm';
+  }
+  v.appendChild(src);
+
+  var settled = false;
+  function useWebp() {
+    if (settled) return; settled = true;
+    if (v.parentNode) v.remove();
+    showWebpIntro();
+  }
+  function ok() { settled = true; v.playbackRate = 1.5; }   // il video sta riproducendo
+
+  v.addEventListener('error', useWebp);
+  v.addEventListener('loadedmetadata', function () { v.playbackRate = 1.5; });
+  document.body.appendChild(v);
+  setTimeout(function () { if (v.style) v.style.pointerEvents = 'none'; }, 3000);
+
+  var pr = v.play();
+  if (pr && pr.then) {
+    pr.then(ok).catch(useWebp);            // autoplay bloccato → WebP (anima sempre)
+  } else {
+    v.addEventListener('playing', ok);
+  }
+  // rete di sicurezza: se entro 2.5s il video non è partito, ripiega sulla WebP
+  setTimeout(function () { if (!settled && (v.paused || v.readyState < 2)) useWebp(); }, 2500);
+}
+
+function showWebpIntro() {
   var img = document.createElement('img');
   img.id = 'intro-webp';
   img.decoding = 'async';
   img.alt = '';
-  img.src = 'assets/images/0. Index/intro-mobile.webp?v=3';
+  img.src = 'assets/images/0. Index/intro-mobile.webp?v=4';
   document.body.appendChild(img);
-  // Stesso comportamento del desktop: i primi 3s l'overlay blocca i click, poi
-  // li lascia passare. La WebP (loop singolo) parte una volta, si congela
-  // sull'ultimo frame e RESTA sullo schermo — niente dissolvenza, niente rimozione.
-  // Il blur sopra/sotto è gestito come sul desktop dallo script inline (rimosso a 2s).
-  setTimeout(function () {
-    if (img && img.style) img.style.pointerEvents = 'none';
-  }, 3000);
+  setTimeout(function () { if (img && img.style) img.style.pointerEvents = 'none'; }, 3000);
 }
 
 /* L'intro parte SOLO la prima volta della sessione: una volta vista, il flag
