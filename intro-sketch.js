@@ -63,6 +63,7 @@ const sketch = (p) => {
   let catGrid;
   let source;
   let art;
+  let sampler   = null;      // MOBILE: buffer N×N per il downscale GPU del frame
   let videoEl   = null;
   let videoMode = true;
   let exited    = false;     // true una volta congelata/fallita l'intro
@@ -77,10 +78,30 @@ const sketch = (p) => {
 
   /* ---- STEP 1: suddivide in N×N celle, calcola luminanza media per cella -------------- */
   function computeGrid() {
+    const N = CONFIG.cells;
+    grid = new Float32Array(N * N);
+
+    // MOBILE — percorso veloce: invece di leggere e mediare in JS tutti i
+    // GRID_W×GRID_H pixel del frame ad ogni frame (~518k px → il vero collo di
+    // bottiglia su telefono), ridisegniamo il frame in un buffer N×N e lasciamo
+    // che sia la GPU a fare la media (downscale bilineare). Ogni pixel del
+    // buffer = media di una cella: stesso risultato, ma O(N²) invece di
+    // O(GRID_W·GRID_H). È questo che rende l'intro fluida su mobile.
+    if (sampler) {
+      sampler.clear();
+      sampler.image(source, 0, 0, N, N);
+      sampler.loadPixels();
+      const sp = sampler.pixels;
+      for (let i = 0; i < N * N; i++) {
+        const j = i * 4;
+        grid[i] = (0.2126 * sp[j] + 0.7152 * sp[j + 1] + 0.0722 * sp[j + 2]) / 255;
+      }
+      return;
+    }
+
+    // DESKTOP — media esatta per cella (invariata: combacia col poster desktop).
     source.loadPixels();
     const px = source.pixels;
-    const N  = CONFIG.cells;
-    grid = new Float32Array(N * N);
     for (let cy = 0; cy < N; cy++) {
       const y0 = Math.round(cy       * GRID_H / N);
       const y1 = Math.round((cy + 1) * GRID_H / N);
@@ -275,10 +296,7 @@ const sketch = (p) => {
     p.noLoop();
     if (videoEl) { videoEl.remove(); videoEl = null; }
     p.remove();
-    removePoster();              // intro fallita: niente canvas, libera anche il poster
-    // Su mobile, se la sorgente non è campionabile, mostriamo comunque la WebP
-    // animata come rete di sicurezza, così l'intro non sparisce del tutto.
-    if (IS_MOBILE && typeof showWebpIntro === 'function') showWebpIntro();
+    removePoster();              // intro fallita: niente canvas, libera anche il poster e mostra il sito
   }
 
   /* ================= p5 lifecycle ================= */
@@ -299,6 +317,10 @@ const sketch = (p) => {
 
     source = p.createGraphics(GRID_W, GRID_H); source.pixelDensity(1);
     art    = p.createGraphics(GRID_W, GRID_H); art.pixelDensity(1);
+    if (IS_MOBILE) {                       // buffer di downscale per computeGrid (vedi STEP 1)
+      sampler = p.createGraphics(CONFIG.cells, CONFIG.cells);
+      sampler.pixelDensity(1);
+    }
 
     videoEl = p.createVideo(INTRO_SRC);
     // Buffering ansioso: riusa i byte già scaricati dal <link rel="preload"> in
@@ -376,25 +398,12 @@ const sketch = (p) => {
   };
 };
 
-/* Fallback WebP (rete di sicurezza): se su mobile la sorgente non è campionabile
-   (es. errore di decodifica), mostriamo la WebP animata con alpha al posto dello
-   sketch, così l'intro non sparisce del tutto. Vedi failIntro(). */
-function showWebpIntro() {
-  try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
-  var img = document.createElement('img');
-  img.id = 'intro-webp';
-  img.decoding = 'async';
-  img.alt = '';
-  img.src = 'assets/images/0. Index/intro-mobile.webp?v=4';
-  document.body.appendChild(img);
-  setTimeout(function () { if (img && img.style) img.style.pointerEvents = 'none'; }, 3000);
-}
-
 /* L'intro parte SOLO la prima volta della sessione: una volta vista, il flag
    'introSeen' resta in sessionStorage e i caricamenti successivi non la mostrano
    (si azzera alla chiusura della scheda/browser).
-   Lo sketch p5 generativo gira ORA su desktop E su mobile (su mobile con sorgente
-   verticale e griglia ridotta, vedi in cima). La WebP resta solo come fallback. */
+   Lo sketch p5 generativo gira su desktop E su mobile, con lo stesso
+   comportamento: su mobile usa la sorgente verticale (1v.mp4), una griglia
+   ridotta e il campionamento via downscale GPU per restare fluido. */
 if (!sessionStorage.getItem('introSeen')) {
   new p5(sketch);
 }

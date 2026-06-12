@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 
-    <!-- Preload dell'intro video DESKTOP: il <video> dell'intro è creato via JS
+    <!-- Preload dell'intro video: il <video> dell'intro è creato via JS
          (intro-sketch.js), quindi il browser non lo scoprirebbe da solo e lo
          scaricherebbe tardi, dopo gli script CDN bloccanti → la grafica marker
          compariva qualche istante dopo il sito. Avviando qui il download in
-         parallelo (prima di tutto il resto), il primo frame è pronto già al
-         primo paint e il marker è subito visibile. Solo desktop via media query. -->
+         parallelo (prima di tutto il resto), il primo frame è pronto prima.
+         Una sorgente per device via media query: landscape su desktop,
+         verticale (1v) su mobile. -->
     <link rel="preload" as="video" type="video/mp4" href="assets/images/0. Index/img. 1.mp4" media="(min-width: 801px)" fetchpriority="high">
+    <link rel="preload" as="video" type="video/mp4" href="assets/images/0. Index/img. 1v.mp4" media="(max-width: 800px)" fetchpriority="high">
 
     <title>Giovanni Coroneo — Portfolio</title>
     <link rel="stylesheet" href="style.css?v=8">
@@ -43,26 +45,27 @@
       }
       setTimeout(function () { if (b0) b0.remove(); }, 2000);
 
-      // POSTER del primo frame "marker": SOLO desktop e SOLO prima sessione.
+      // POSTER del primo frame "marker" (prima sessione, desktop E mobile).
       // È una stampa identica al primo frame che disegnerà il canvas live:
       // mostrandola all'istante copriamo il gap finché il video non è pronto,
       // così la grafica marker è visibile da subito senza ritardi.
       // intro-sketch.js la rimuove appena il canvas live disegna il primo frame.
-      var isDesktop = !window.matchMedia || window.matchMedia('(min-width: 801px)').matches;
-      if (isDesktop) {
-        var ph = document.createElement('img');
-        ph.id = 'intro-poster';
-        ph.alt = '';
-        ph.decoding = 'async';
-        ph.fetchPriority = 'high';
-        ph.src = 'assets/images/0. Index/intro-poster.webp?v=1';
-        document.body.appendChild(ph);
-        // rete di sicurezza: se il canvas live non parte, togli comunque il poster.
-        setTimeout(function () {
-          var p = document.getElementById('intro-poster');
-          if (p) p.remove();
-        }, 8000);
-      }
+      // Sorgente per device: verticale su mobile, landscape su desktop.
+      var isMobile = window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+      var ph = document.createElement('img');
+      ph.id = 'intro-poster';
+      ph.alt = '';
+      ph.decoding = 'async';
+      ph.fetchPriority = 'high';
+      ph.src = isMobile
+        ? 'assets/images/0. Index/intro-poster-mobile.webp?v=1'
+        : 'assets/images/0. Index/intro-poster.webp?v=1';
+      document.body.appendChild(ph);
+      // rete di sicurezza: se il canvas live non parte, togli comunque il poster.
+      setTimeout(function () {
+        var p = document.getElementById('intro-poster');
+        if (p) p.remove();
+      }, 8000);
     })();
   </script>
 
@@ -242,6 +245,6 @@
 <script src="script.js?v=5"></script>
 <!-- Intro generativa "stampa a strisce": crea il canvas #intro-canvas come overlay,
      mostra il clip per ~6s e poi lo fa scorrere verso l'alto rivelando il sito. -->
-<script src="intro-sketch.js?v=10"></script>
+<script src="intro-sketch.js?v=11"></script>
 </body>
 </html>
