@@ -14,7 +14,7 @@
     <link rel="preload" as="video" type="video/mp4" href="assets/images/0. Index/img. 1.mp4" media="(min-width: 801px)" fetchpriority="high">
 
     <title>Giovanni Coroneo — Portfolio</title>
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 
     <!-- jQuery + jQuery UI (used by script.js for .draggable) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -32,16 +32,38 @@
        sfoca il sito e si de-blurra in 4s, poi viene rimosso. -->
   <div id="intro-blur"></div>
   <script>
-    // L'intro (canvas + blur) parte solo la PRIMA volta della sessione.
-    if (sessionStorage.getItem('introSeen')) {
+    // L'intro (canvas + blur + poster) parte solo la PRIMA volta della sessione.
+    (function () {
+      var seen = false;
+      try { seen = !!sessionStorage.getItem('introSeen'); } catch (e) {}
       var b0 = document.getElementById('intro-blur');
-      if (b0) b0.remove();                 // sessioni successive: niente blur
-    } else {
-      setTimeout(function () {
-        var b = document.getElementById('intro-blur');
-        if (b) b.remove();
-      }, 2000);
-    }
+      if (seen) {
+        if (b0) b0.remove();               // sessioni successive: niente intro
+        return;
+      }
+      setTimeout(function () { if (b0) b0.remove(); }, 2000);
+
+      // POSTER del primo frame "marker": SOLO desktop e SOLO prima sessione.
+      // È una stampa identica al primo frame che disegnerà il canvas live:
+      // mostrandola all'istante copriamo il gap finché il video non è pronto,
+      // così la grafica marker è visibile da subito senza ritardi.
+      // intro-sketch.js la rimuove appena il canvas live disegna il primo frame.
+      var isDesktop = !window.matchMedia || window.matchMedia('(min-width: 801px)').matches;
+      if (isDesktop) {
+        var ph = document.createElement('img');
+        ph.id = 'intro-poster';
+        ph.alt = '';
+        ph.decoding = 'async';
+        ph.fetchPriority = 'high';
+        ph.src = 'assets/images/0. Index/intro-poster.webp?v=1';
+        document.body.appendChild(ph);
+        // rete di sicurezza: se il canvas live non parte, togli comunque il poster.
+        setTimeout(function () {
+          var p = document.getElementById('intro-poster');
+          if (p) p.remove();
+        }, 8000);
+      }
+    })();
   </script>
 
 
@@ -220,6 +242,6 @@
 <script src="script.js?v=5"></script>
 <!-- Intro generativa "stampa a strisce": crea il canvas #intro-canvas come overlay,
      mostra il clip per ~6s e poi lo fa scorrere verso l'alto rivelando il sito. -->
-<script src="intro-sketch.js?v=9"></script>
+<script src="intro-sketch.js?v=10"></script>
 </body>
 </html>

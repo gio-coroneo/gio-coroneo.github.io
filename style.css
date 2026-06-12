@@ -903,6 +903,22 @@ a {
   pointer-events: auto;         /* primi 3,5s blocca i click; poi intro-sketch.js lo porta a none */
 }
 
+/* Poster statico del primo frame "marker" (solo desktop, prima sessione).
+   Stesso piano e stesso ritaglio del canvas: il canvas live, creato dopo nel
+   DOM, gli si sovrappone e intro-sketch.js rimuove il poster al primo frame. */
+#intro-poster {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99998;
+  display: block;
+  object-fit: cover;            /* poster 1920×1080: ritaglio identico al canvas */
+  background: transparent;
+  pointer-events: none;
+}
+
 /* Intro MOBILE: overlay WebP animata con alpha (creato da showMobileIntro()).
    Replica il comportamento del canvas desktop: copre lo schermo, le zone
    trasparenti lasciano intravedere la pagina; i primi 3s blocca i click

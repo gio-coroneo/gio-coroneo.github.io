@@ -67,6 +67,13 @@ const sketch = (p) => {
   let videoMode = true;
   let exited    = false;     // true una volta congelata/fallita l'intro
   let cnv       = null;      // il canvas p5: È lui l'overlay (nessuna box contenitore)
+  let firstFrameDrawn = false; // true dopo il primo frame del canvas live
+
+  /* Rimuove il poster statico (#intro-poster): il canvas live ha preso il posto. */
+  function removePoster() {
+    const ph = document.getElementById('intro-poster');
+    if (ph) ph.remove();
+  }
 
   /* ---- STEP 1: suddivide in N×N celle, calcola luminanza media per cella -------------- */
   function computeGrid() {
@@ -268,6 +275,7 @@ const sketch = (p) => {
     p.noLoop();
     if (videoEl) { videoEl.remove(); videoEl = null; }
     p.remove();
+    removePoster();              // intro fallita: niente canvas, libera anche il poster
     // Su mobile, se la sorgente non è campionabile, mostriamo comunque la WebP
     // animata come rete di sicurezza, così l'intro non sparisce del tutto.
     if (IS_MOBILE && typeof showWebpIntro === 'function') showWebpIntro();
@@ -356,6 +364,10 @@ const sketch = (p) => {
       const fw = vw * sc, fh = vh * sc;
       source.image(videoEl, (GRID_W - fw) / 2, (GRID_H - fh) / 2, fw, fh);
       restartPrint();
+      if (!firstFrameDrawn) {     // primo frame live disegnato: via il poster (swap impercettibile)
+        firstFrameDrawn = true;
+        removePoster();
+      }
     } catch (e) {
       // SecurityError da loadPixels() su canvas "tainted" (file://) o simili
       console.warn('[intro] sorgente non campionabile, intro disattivata:', e);
