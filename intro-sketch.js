@@ -6,10 +6,21 @@
    Il motore grafico (computeGrid / smoothGrid / drawStrip / restartPrint)
    è identico all'originale.
    ===================================================================== */
-const GRID_W = 1920, GRID_H = 1080;
+/* Lo sketch gira su desktop E su mobile. Differenze su mobile:
+   - sorgente VERTICALE 9:16 (img. 1v.mp4) invece della landscape 16:9;
+   - griglia di campionamento ridotta (GRID più piccola) → molti meno pixel
+     letti per frame, così il render generativo resta fluido anche su telefono.
+   Il resto del motore (computeGrid/smoothGrid/drawStrip) è identico. */
+const IS_MOBILE = typeof window !== 'undefined'
+  && window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+
+const GRID_W = IS_MOBILE ? 540 : 1920;
+const GRID_H = IS_MOBILE ? 960 : 1080;
 
 /* Sorgente da campionare per l'intro */
-const INTRO_SRC = 'assets/images/0. Index/img. 1.mp4';
+const INTRO_SRC = IS_MOBILE
+  ? 'assets/images/0. Index/img. 1v.mp4'   // verticale 9:16 (portrait)
+  : 'assets/images/0. Index/img. 1.mp4';   // landscape 16:9 (desktop)
 
 /* ---- Seeded PRNG — Mulberry32: stesso seme → stessa sequenza ----------- */
 function seededRand(seed) {
@@ -40,14 +51,11 @@ const CONFIG = {
   paper:     '#f6f7f8'
 };
 
-/* Mobile: versione leggera dell'intro. Riduciamo il numero di celle e le passate
-   di blur (i costi dominanti per frame) per contenere CPU e batteria; il
-   framerate viene abbassato in setup(). L'effetto resta, ma molto più economico. */
-const IS_MOBILE = typeof window !== 'undefined'
-  && window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+/* Mobile: bilanciamo qualità e fluidità. La griglia ridotta (GRID_W/H sopra) taglia
+   già molto i pixel letti per frame; qui teniamo una buona densità di celle. */
 if (IS_MOBILE) {
-  CONFIG.cells = 48;
-  CONFIG.blur  = 6;
+  CONFIG.cells = 80;
+  CONFIG.blur  = 12;
 }
 
 const sketch = (p) => {
@@ -260,6 +268,9 @@ const sketch = (p) => {
     p.noLoop();
     if (videoEl) { videoEl.remove(); videoEl = null; }
     p.remove();
+    // Su mobile, se la sorgente non è campionabile, mostriamo comunque la WebP
+    // animata come rete di sicurezza, così l'intro non sparisce del tutto.
+    if (IS_MOBILE && typeof showWebpIntro === 'function') showWebpIntro();
   }
 
   /* ================= p5 lifecycle ================= */
@@ -269,7 +280,7 @@ const sketch = (p) => {
     cnv.parent(document.body);
     cnv.elt.id = 'intro-canvas';
     p.pixelDensity(1);
-    p.frameRate(IS_MOBILE ? 20 : 30);
+    p.frameRate(30);   // griglia ridotta su mobile → 30fps sostenibili come sul desktop
 
     // Primi 3s: il canvas intercetta i click → niente è cliccabile sotto.
     // Dopo, li lascia passare (le zone trasparenti tornano interattive).
@@ -349,64 +360,11 @@ const sketch = (p) => {
   };
 };
 
-/* Intro mobile: una WebP animata con alpha (assets/images/0. Index/intro-mobile.webp).
-   Essendo un'immagine, si anima sempre da sola su iOS — senza le restrizioni di
-   autoplay dei video (niente blocco in Risparmio Energetico). Sostituisce lo
-   sketch p5, che su mobile non riusciva a campionare il video. */
-function showMobileIntro() {
-  try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
-
-  // Per la massima fluidità usiamo un VIDEO con alpha decodificato in hardware
-  // (come il desktop), con il codec giusto per piattaforma:
-  //   - iOS/Safari: HEVC con alpha (unico formato video alpha che iOS riproduce)
-  //   - Android/Chrome: VP9 con alpha (WebM)
-  // Se il video non è disponibile o l'autoplay è bloccato, si ripiega sulla WebP
-  // animata (che parte sempre). Comportamento identico al desktop: parte una
-  // volta a 1.5×, si congela sull'ultimo frame e RESTA; click bloccati per 3s.
-  var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent)
-    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-  var v = document.createElement('video');
-  v.id = 'intro-video';
-  v.muted = true; v.defaultMuted = true; v.setAttribute('muted', '');
-  v.playsInline = true; v.setAttribute('playsinline', '');
-  v.setAttribute('preload', 'auto');
-  v.loop = false;
-
-  var src = document.createElement('source');
-  if (isIOS) {
-    src.src = 'assets/images/0. Index/intro-mobile.mov?v=1';   // HEVC-alpha (da generare su Mac)
-    src.type = 'video/mp4; codecs="hvc1"';
-  } else {
-    src.src = 'assets/images/0. Index/intro-mobile.webm?v=1';  // VP9-alpha
-    src.type = 'video/webm';
-  }
-  v.appendChild(src);
-
-  var settled = false;
-  function useWebp() {
-    if (settled) return; settled = true;
-    if (v.parentNode) v.remove();
-    showWebpIntro();
-  }
-  function ok() { settled = true; v.playbackRate = 1.5; }   // il video sta riproducendo
-
-  v.addEventListener('error', useWebp);
-  v.addEventListener('loadedmetadata', function () { v.playbackRate = 1.5; });
-  document.body.appendChild(v);
-  setTimeout(function () { if (v.style) v.style.pointerEvents = 'none'; }, 3000);
-
-  var pr = v.play();
-  if (pr && pr.then) {
-    pr.then(ok).catch(useWebp);            // autoplay bloccato → WebP (anima sempre)
-  } else {
-    v.addEventListener('playing', ok);
-  }
-  // rete di sicurezza: se entro 2.5s il video non è partito, ripiega sulla WebP
-  setTimeout(function () { if (!settled && (v.paused || v.readyState < 2)) useWebp(); }, 2500);
-}
-
+/* Fallback WebP (rete di sicurezza): se su mobile la sorgente non è campionabile
+   (es. errore di decodifica), mostriamo la WebP animata con alpha al posto dello
+   sketch, così l'intro non sparisce del tutto. Vedi failIntro(). */
 function showWebpIntro() {
+  try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
   var img = document.createElement('img');
   img.id = 'intro-webp';
   img.decoding = 'async';
@@ -419,14 +377,8 @@ function showWebpIntro() {
 /* L'intro parte SOLO la prima volta della sessione: una volta vista, il flag
    'introSeen' resta in sessionStorage e i caricamenti successivi non la mostrano
    (si azzera alla chiusura della scheda/browser).
-   - Desktop: sketch p5 generativo (campiona il video).
-   - Mobile: WebP animata con alpha (vedi showMobileIntro). */
-(function () {
-  if (sessionStorage.getItem('introSeen')) return;
-  var onMobile = window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
-  if (onMobile) {
-    showMobileIntro();
-  } else {
-    new p5(sketch);
-  }
-})();
+   Lo sketch p5 generativo gira ORA su desktop E su mobile (su mobile con sorgente
+   verticale e griglia ridotta, vedi in cima). La WebP resta solo come fallback. */
+if (!sessionStorage.getItem('introSeen')) {
+  new p5(sketch);
+}

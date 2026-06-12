@@ -872,21 +872,24 @@ a {
    verso l'alto (translateY). Le zone near-white del video sono trasparenti,
    così il sito sottostante traspare attraverso di esse. */
 /* Rettangolo di blur: sta TRA il sito (sotto) e il canvas dell'intro (#intro-canvas, sopra).
-   Sfoca l'index e si de-blurra progressivamente in 4s, poi un timer lo rimuove. */
+   Resta sfocato PIENO finché l'intro non è pronta: intro-sketch.js gli aggiunge la
+   classe .clearing (transizione a 0) quando lo sketch parte (o se fallisce),
+   rivelando il sito. Niente de-blur automatico a tempo. */
 #intro-blur {
   position: fixed;
   inset: 0;
   z-index: 99997;                       /* sotto #intro-canvas (99998), sopra il sito */
   pointer-events: none;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  animation: introDeblur 4s ease forwards;
-  will-change: backdrop-filter;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 1;
+  transition: backdrop-filter 0.6s ease, -webkit-backdrop-filter 0.6s ease, opacity 0.6s ease;
+  will-change: backdrop-filter, opacity;
 }
-/* 0–1s: blur pieno (4px). 1–4s: de-blur fino a 0. (25% di 4s = 1s) */
-@keyframes introDeblur {
-  0%, 25% { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
-  100%    { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
+#intro-blur.clearing {
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  opacity: 0;
 }
 
 #intro-canvas {
