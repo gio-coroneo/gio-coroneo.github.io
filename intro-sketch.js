@@ -355,18 +355,19 @@ const sketch = (p) => {
    sketch p5, che su mobile non riusciva a campionare il video. */
 function showMobileIntro() {
   try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
-  var blur = document.getElementById('intro-blur'); if (blur) blur.remove();
   var img = document.createElement('img');
   img.id = 'intro-webp';
   img.decoding = 'async';
   img.alt = '';
-  img.src = 'assets/images/0. Index/intro-mobile.webp?v=1';
+  img.src = 'assets/images/0. Index/intro-mobile.webp?v=3';
   document.body.appendChild(img);
-  // l'animazione dura ~3,2s (48 frame @15fps): poi dissolvenza e rimozione
+  // Stesso comportamento del desktop: i primi 3s l'overlay blocca i click, poi
+  // li lascia passare. La WebP (loop singolo) parte una volta, si congela
+  // sull'ultimo frame e RESTA sullo schermo — niente dissolvenza, niente rimozione.
+  // Il blur sopra/sotto è gestito come sul desktop dallo script inline (rimosso a 2s).
   setTimeout(function () {
-    img.classList.add('fade');
-    setTimeout(function () { if (img && img.parentNode) img.remove(); }, 700);
-  }, 3300);
+    if (img && img.style) img.style.pointerEvents = 'none';
+  }, 3000);
 }
 
 /* L'intro parte SOLO la prima volta della sessione: una volta vista, il flag
