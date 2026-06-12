@@ -53,6 +53,11 @@
 html {
     scrollbar-color: var(--lightGrey) #ffffff;
     scrollbar-width: thin;
+    /* Impedisce l'auto-ingrandimento del testo dei browser mobile (text boosting):
+       senza questo, i tag piccoli dei progetti (.category, 12px) venivano gonfiati
+       su mobile e non corrispondevano più al desktop. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 body {
     padding: 0;
@@ -765,6 +770,16 @@ a {
        finirebbe sotto il navbar fisso → spazio in alto per liberarlo. */
     #sidebar:has(#intro) {
         padding-top: 50px;
+    }
+    /* Filetto separatore (solo mobile, solo pagine progetto): la sidebar — che su
+       desktop sta a sinistra ed è già separata dal border-right — su mobile si
+       impila in cima come "introduzione". Aggiungiamo una linea subito dopo, per
+       separarla visivamente dalla descrizione estesa del progetto sottostante.
+       Le pagine progetto si riconoscono dalla presenza di #case-study. */
+    body:has(#case-study) #sidebar {
+        border-bottom: 1px solid var(--lightGrey);
+        padding-bottom: 25px;
+        margin-bottom: 10px;
     }
     #work {
         grid-template-columns: repeat(1, 1fr);

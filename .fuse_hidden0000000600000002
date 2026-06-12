@@ -69,14 +69,14 @@
 
 
     <div id="mobile-blur">
-        <p>This layout is designed for desktop first.<span>☺&#xFE0E;</span></p>
+        <p>This layout is designed for desktop first.<span>☺</span></p>
     </div>
 
   <div id="sidebar">
     <p id="intro"><span id="record-icon"></span><span id="intro-name">Giovanni Coroneo</span> is a Designer and<br>MSc Communication Design candidate<br>at Politecnico di Milano.</p>
     <p style="display: none;">Placeholder statement line — one or two sentences about approach and motivation.</p>
     <p style="margin-top: 80px;display: none;"><span class="case-study-small">(  Interests  )</span>Interest one, interest two, interest three, interest four, interest five, interest six</p>
-    <p style="position: absolute; bottom: 0px; padding-right: 20px;"><span class="case-study-small">(  Note  )</span>This is a temporary website.<br>A full update is coming in August. ☺&#xFE0E;</p>
+    <p style="position: absolute; bottom: 0px; padding-right: 20px;"><span class="case-study-small">(  Note  )</span>This is a temporary website.<br>A full update is coming in August. ☺</p>
   </div>
 
   <!--PORTFOLIO-->
