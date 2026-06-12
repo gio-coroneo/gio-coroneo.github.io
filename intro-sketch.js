@@ -282,11 +282,22 @@ const sketch = (p) => {
     art    = p.createGraphics(GRID_W, GRID_H); art.pixelDensity(1);
 
     videoEl = p.createVideo(INTRO_SRC);
-    videoEl.hide();
+    // NON usare hide()/display:none: iOS Safari (e altri browser mobile) NON
+    // riproducono in autoplay un video con display:none, quindi p5 non potrebbe
+    // campionarne i frame e l'intro resterebbe invisibile. Lo teniamo renderizzato
+    // ma di fatto invisibile (1px, fuori vista, dietro a tutto).
+    Object.assign(videoEl.elt.style, {
+      position: 'fixed', left: '0', top: '0',
+      width: '1px', height: '1px', opacity: '0.01',
+      pointerEvents: 'none', zIndex: '-1'
+    });
     videoEl.volume(0);
     videoEl.elt.loop = false;          // NON in loop: alla fine non riparte da capo (era il "glitch")
     videoEl.elt.muted = true;
+    videoEl.elt.defaultMuted = true;
+    videoEl.elt.setAttribute('muted', '');         // attributo esplicito: richiesto da iOS per l'autoplay
     videoEl.elt.playsInline = true;
+    videoEl.elt.setAttribute('playsinline', '');
     videoEl.elt.oncanplay = () => {
       if (exited) return;              // ignora eventi tardivi
       videoEl.play();

@@ -325,6 +325,31 @@ document.addEventListener("DOMContentLoaded", function () {
     requestAnimationFrame(syncTick);
 });
 
+/* Filtro su mobile: apertura/chiusura al tap (l'hover non funziona su touch).
+   Su desktop resta gestito dall'hover via CSS, quindi qui usciamo subito. */
+document.addEventListener("DOMContentLoaded", function () {
+    if (!(window.matchMedia && window.matchMedia('(max-width: 800px)').matches)) return;
+    var filter = document.getElementById('filter');
+    if (!filter) return;
+    var menu = filter.querySelector('.filter-select');
+    filter.addEventListener('click', function (e) {
+        if (e.target.closest('.filter-button')) {
+            // opzione scelta: filterProjects() ha già filtrato → chiudiamo il menu
+            filter.classList.remove('open');
+            if (menu) menu.style.display = '';
+            return;
+        }
+        // tap sulla scatola "I make ___": apre/chiude il menu
+        e.stopPropagation();
+        if (menu) menu.style.display = '';   // azzera l'eventuale inline display:none
+        filter.classList.toggle('open');
+    });
+    // tap fuori dal filtro: chiude
+    document.addEventListener('click', function (e) {
+        if (!filter.contains(e.target)) filter.classList.remove('open');
+    });
+});
+
 /* Tooltip */
 document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('.draggable-img').forEach(function(draggableImg){

@@ -781,8 +781,28 @@ a {
     #navbar a {
         font-size: 14px;
     }
+    /* Filtro progetti su mobile: visibile e ancorato in fondo alla pagina, con
+       apertura al tap (l'hover non esiste su touch — il toggle è in script.js). */
     #filter {
-        display: none;
+        display: block;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        bottom: 20px;
+        width: calc(100vw - 40px);
+        max-width: 320px;
+        box-sizing: border-box;
+    }
+    #filter-selection {
+        flex: 1;
+        width: auto;
+    }
+    .filter-select {
+        left: -1px;
+        width: calc(100% + 2px);
+    }
+    #filter.open .filter-select {
+        display: block;
     }
     #intro-mobile {
         display: block;
