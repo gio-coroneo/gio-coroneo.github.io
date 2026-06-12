@@ -1,6 +1,23 @@
-$(function() {
-    $(".draggable").draggable();
-    } );
+/* jQuery serve solo per il drag dell'hero (che è display:none). Lo isoliamo con
+   una guardia: se il CDN di jQuery non carica, il resto di questo script deve
+   comunque funzionare (prima invece un "$ is not defined" bloccava tutto). */
+if (window.jQuery) {
+    jQuery(function () {
+        if (jQuery.fn && jQuery.fn.draggable) jQuery(".draggable").draggable();
+    });
+}
+
+/* BR -> spazio (solo mobile)
+   I <br> manuali nei testi servono al wrapping desktop; su mobile spezzano le
+   righe in punti sbagliati. Li sostituiamo con uno spazio così il testo riflusce
+   liberamente. Lo facciamo in JS perché il CSS non può rimuovere il break e
+   garantire al contempo lo spazio in modo cross-browser. */
+document.addEventListener("DOMContentLoaded", function () {
+    if (!(window.matchMedia && window.matchMedia('(max-width: 800px)').matches)) return;
+    document.querySelectorAll('#content br, #sidebar br').forEach(function (br) {
+        br.replaceWith(document.createTextNode(' '));
+    });
+});
 
 /* Custom cursor dot */
 document.addEventListener("DOMContentLoaded", function () {
@@ -185,6 +202,26 @@ document.querySelectorAll('.carousel').forEach(carousel => {
         }
         handleVideos();
     });
+
+    /* Swipe touch: su mobile le frecce restano, ma lo swipe è il gesto atteso.
+       Riusa la logica dei pulsanti. Una soglia di 40px evita che un tap venga
+       letto come swipe; window.__lastSwipe segnala alle altre logiche (es. il
+       click sul progetto in index) di ignorare il click sintetico post-swipe. */
+    let touchStartX = null, touchStartY = null;
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    carousel.addEventListener('touchend', (e) => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        touchStartX = touchStartY = null;
+        // ignora gesti prevalentemente verticali (scroll) o troppo corti (tap)
+        if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+        window.__lastSwipe = Date.now();
+        if (dx < 0) nextButton.click(); else prevButton.click();
+    }, { passive: true });
 });
 
 /* Make each project block clickable (index page) */
@@ -199,6 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // let carousel arrows and any inner link behave normally
             if (e.target.closest('.carousel-control')) return;
             if (e.target.closest('a')) return;
+            // ignora il click sintetico generato subito dopo uno swipe del carousel
+            if (window.__lastSwipe && Date.now() - window.__lastSwipe < 500) return;
             window.location.href = href;
         });
     });

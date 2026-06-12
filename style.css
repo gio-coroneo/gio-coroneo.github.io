@@ -702,9 +702,18 @@ a {
     font-size: 28px;
 }
 @media screen and (max-width: 800px) {
+    /* Mobile è ora supportato: l'overlay che bloccava la pagina viene rimosso. */
     #mobile-blur {
-        display: block;
+        display: none;
     }
+    /* Sicurezza anti-scroll orizzontale: nessun elemento deve sforare la viewport. */
+    html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+    /* I <br> manuali (usati per controllare il wrapping desktop) vengono
+       convertiti in spazi a runtime da script.js su mobile, così i testi
+       rifluiscono senza incollare le parole. Vedi "BR -> spazio" in script.js. */
     #hero {
         display: none;
         height: 150px;
@@ -727,7 +736,7 @@ a {
 
         background-color: rgba(0, 128, 0, 0);
 
-        width: calc(100vw - 0px);
+        width: 100vw;
     }
     #case-study-container {
         display: flex;
@@ -740,21 +749,34 @@ a {
         display: block;
         position: relative;
         border: none;
-        width: calc(100vw - 20px);
+        width: 100vw;
 
         height: fit-content;
-        margin: 0 20px;
+        margin: 0;
+        padding: 0 20px;
         box-sizing: border-box;
-        overflow-y: scroll;
+        overflow-y: visible;
+    }
+    /* Index: l'intro della sidebar è duplicata (in versione più completa) da
+       #intro-mobile, e partendo da y=0 finisce sotto il navbar fisso. Nascondiamo
+       la sidebar solo su questa pagina — la rileviamo dalla presenza di
+       #intro-mobile, che esiste solo nell'index. */
+    body:has(#intro-mobile) #sidebar {
+        display: none;
+    }
+    /* Pagine che tengono #intro in sidebar (Play): la sidebar parte da y=0 e
+       finirebbe sotto il navbar fisso → spazio in alto per liberarlo. */
+    #sidebar:has(#intro) {
+        padding-top: 50px;
     }
     #work {
         grid-template-columns: repeat(1, 1fr);
     }
     #navbar {
+        left: 0;
         width: 100vw;
-        box-sizing: content-box;
-
-        width: calc(100vw - 40px);
+        padding: 0 20px;
+        box-sizing: border-box;
     }
     #navbar a {
         font-size: 14px;
@@ -767,7 +789,7 @@ a {
         text-align: left !important;
         padding: 150px 0 10px 0;
         border-bottom: 0.5px solid var(--black);
-        width: 100vw;
+        width: 100%;
         box-sizing: border-box;
     }
     #intro-mobile-content {
@@ -781,10 +803,43 @@ a {
         font-size: 18px;
         line-height: 22px;
     }
+    /* Griglie multi-colonna non gestite finora: collassano o sforano su mobile. */
+    .case-study-4-column {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* play.html imposta la griglia a 3 colonne via stile inline: serve !important
+       per scavalcarlo senza modificare il markup. */
+    .case-study-masonry-grid {
+        column-count: 1;
+        grid-template-columns: 1fr !important;
+    }
+    #resume {
+        grid-template-columns: 1fr;
+        margin-top: 80px;
+    }
+    #books {
+        grid-template-columns: 1fr;
+    }
+    .books-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-column: span 1;
+    }
+    .books-grid img {
+        width: 100%;
+        height: auto;
+    }
     #case-study-intro {
         margin-top: 60px;
         position: relative;
     }
+  }
+
+/* Su dispositivi touch (senza puntatore): ripristina il cursore nativo e
+   nasconde il pallino custom, che altrimenti resterebbe inerte. */
+@media (hover: none) and (pointer: coarse) {
+    * { cursor: auto !important; }
+    #cursor-dot { display: none !important; }
+    a, button, .carousel-control, .clickable, .filter-button { cursor: pointer !important; }
   }
 
 /* INTRO CANVAS (index.html only — once per session)

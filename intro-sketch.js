@@ -40,6 +40,16 @@ const CONFIG = {
   paper:     '#f6f7f8'
 };
 
+/* Mobile: versione leggera dell'intro. Riduciamo il numero di celle e le passate
+   di blur (i costi dominanti per frame) per contenere CPU e batteria; il
+   framerate viene abbassato in setup(). L'effetto resta, ma molto più economico. */
+const IS_MOBILE = typeof window !== 'undefined'
+  && window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+if (IS_MOBILE) {
+  CONFIG.cells = 48;
+  CONFIG.blur  = 6;
+}
+
 const sketch = (p) => {
   let grid;
   let catGrid;
@@ -259,7 +269,7 @@ const sketch = (p) => {
     cnv.parent(document.body);
     cnv.elt.id = 'intro-canvas';
     p.pixelDensity(1);
-    p.frameRate(30);
+    p.frameRate(IS_MOBILE ? 20 : 30);
 
     // Primi 3s: il canvas intercetta i click → niente è cliccabile sotto.
     // Dopo, li lascia passare (le zone trasparenti tornano interattive).
