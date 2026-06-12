@@ -349,11 +349,37 @@ const sketch = (p) => {
   };
 };
 
+/* Intro mobile: una WebP animata con alpha (assets/images/0. Index/intro-mobile.webp).
+   Essendo un'immagine, si anima sempre da sola su iOS — senza le restrizioni di
+   autoplay dei video (niente blocco in Risparmio Energetico). Sostituisce lo
+   sketch p5, che su mobile non riusciva a campionare il video. */
+function showMobileIntro() {
+  try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+  var blur = document.getElementById('intro-blur'); if (blur) blur.remove();
+  var img = document.createElement('img');
+  img.id = 'intro-webp';
+  img.decoding = 'async';
+  img.alt = '';
+  img.src = 'assets/images/0. Index/intro-mobile.webp?v=1';
+  document.body.appendChild(img);
+  // l'animazione dura ~3,2s (48 frame @15fps): poi dissolvenza e rimozione
+  setTimeout(function () {
+    img.classList.add('fade');
+    setTimeout(function () { if (img && img.parentNode) img.remove(); }, 700);
+  }, 3300);
+}
+
 /* L'intro parte SOLO la prima volta della sessione: una volta vista, il flag
    'introSeen' resta in sessionStorage e i caricamenti successivi non la mostrano
    (si azzera alla chiusura della scheda/browser).
-   NB: il flag viene ora impostato da startPlayback() SOLO quando la riproduzione
-   parte davvero, così un autoplay bloccato non "brucia" l'intro per la sessione. */
-if (!sessionStorage.getItem('introSeen')) {
-  new p5(sketch);
-}
+   - Desktop: sketch p5 generativo (campiona il video).
+   - Mobile: WebP animata con alpha (vedi showMobileIntro). */
+(function () {
+  if (sessionStorage.getItem('introSeen')) return;
+  var onMobile = window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+  if (onMobile) {
+    showMobileIntro();
+  } else {
+    new p5(sketch);
+  }
+})();

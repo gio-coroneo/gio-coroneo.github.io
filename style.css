@@ -852,6 +852,10 @@ a {
         margin-top: 60px;
         position: relative;
     }
+    /* "Case Study in Progress" va a capo sotto la riga delle categorie (solo mobile). */
+    .coming-soon {
+        display: block;
+    }
   }
 
 /* Su dispositivi touch (senza puntatore): ripristina il cursore nativo e
@@ -898,6 +902,24 @@ a {
   will-change: transform;
   pointer-events: auto;         /* primi 3,5s blocca i click; poi intro-sketch.js lo porta a none */
 }
+
+/* Intro MOBILE: overlay WebP animata con alpha (creato da showMobileIntro()).
+   Copre lo schermo, le zone trasparenti lasciano intravedere la pagina, poi
+   sfuma. pointer-events:none così non blocca l'interazione. */
+#intro-webp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;            /* 9:16 a tutto schermo (ritaglio minimo laterale) */
+  z-index: 99999;
+  pointer-events: none;
+  background: transparent;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+#intro-webp.fade { opacity: 0; }
 
 /* ============================================================================
    PLACEHOLDERS (reference build only — remove when adding real media)
