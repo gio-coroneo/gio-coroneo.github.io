@@ -248,7 +248,7 @@ const sketch = (p) => {
     if (exited) return;
     exited = true;
     p.noLoop();                          // congela l'ultimo frame disegnato
-    if (videoEl) videoEl.pause();        // ferma il video sull'ultimo frame
+    if (videoEl) { videoEl.pause(); videoEl.elt.style.display = 'none'; }  // ferma e nasconde il video sorgente
   }
 
   /* ---- Sorgente non campionabile (es. apertura via file:// → canvas "tainted"):
@@ -282,14 +282,15 @@ const sketch = (p) => {
     art    = p.createGraphics(GRID_W, GRID_H); art.pixelDensity(1);
 
     videoEl = p.createVideo(INTRO_SRC);
-    // NON usare hide()/display:none: iOS Safari (e altri browser mobile) NON
-    // riproducono in autoplay un video con display:none, quindi p5 non potrebbe
-    // campionarne i frame e l'intro resterebbe invisibile. Lo teniamo renderizzato
-    // ma di fatto invisibile (1px, fuori vista, dietro a tutto).
+    // NON usare hide()/display:none: iOS NON riproduce in autoplay un video con
+    // display:none (né, spesso, uno di 1px che considera "non visibile"), quindi
+    // p5 non potrebbe campionarne i frame. Lo teniamo a piena dimensione e quasi
+    // trasparente, DIETRO al canvas e al blur (che lo coprono): per iOS è un video
+    // "visibile" e riproducibile, per l'utente è impercettibile.
     Object.assign(videoEl.elt.style, {
       position: 'fixed', left: '0', top: '0',
-      width: '1px', height: '1px', opacity: '0.01',
-      pointerEvents: 'none', zIndex: '-1'
+      width: '100vw', height: '100vh', objectFit: 'cover',
+      opacity: '0.012', pointerEvents: 'none', zIndex: '1'
     });
     videoEl.volume(0);
     videoEl.elt.loop = false;          // NON in loop: alla fine non riparte da capo (era il "glitch")
@@ -298,12 +299,33 @@ const sketch = (p) => {
     videoEl.elt.setAttribute('muted', '');         // attributo esplicito: richiesto da iOS per l'autoplay
     videoEl.elt.playsInline = true;
     videoEl.elt.setAttribute('playsinline', '');
-    videoEl.elt.oncanplay = () => {
-      if (exited) return;              // ignora eventi tardivi
-      videoEl.play();
+    let started = false;
+    function startPlayback() {
+      if (exited || started) return;
+      started = true;
+      const pr = videoEl.elt.play();
       videoEl.elt.playbackRate = 1.5;  // 6s di clip → ~4s di animazione, poi si ferma e resta
       p.loop();
-    };
+      if (pr && pr.then) {
+        // segniamo l'intro come "vista" SOLO quando parte davvero, così un
+        // autoplay bloccato non la salta per il resto della sessione.
+        pr.then(() => { try { sessionStorage.setItem('introSeen', '1'); } catch (e) {} })
+          .catch(() => { started = false; armGesture(); });
+      } else {
+        try { sessionStorage.setItem('introSeen', '1'); } catch (e) {}
+      }
+    }
+    // Fallback mobile: se l'autoplay è bloccato, l'intro parte al primo tocco/click.
+    function armGesture() {
+      function go() {
+        window.removeEventListener('touchend', go);
+        window.removeEventListener('click', go);
+        startPlayback();
+      }
+      window.addEventListener('touchend', go, { once: true });
+      window.addEventListener('click', go, { once: true });
+    }
+    videoEl.elt.oncanplay = () => { if (!exited) startPlayback(); };
     videoEl.elt.onended = freezeIntro; // fine naturale della clip → congela e resta sullo schermo
   };
 
@@ -329,8 +351,9 @@ const sketch = (p) => {
 
 /* L'intro parte SOLO la prima volta della sessione: una volta vista, il flag
    'introSeen' resta in sessionStorage e i caricamenti successivi non la mostrano
-   (si azzera alla chiusura della scheda/browser). */
+   (si azzera alla chiusura della scheda/browser).
+   NB: il flag viene ora impostato da startPlayback() SOLO quando la riproduzione
+   parte davvero, così un autoplay bloccato non "brucia" l'intro per la sessione. */
 if (!sessionStorage.getItem('introSeen')) {
-  sessionStorage.setItem('introSeen', '1');
   new p5(sketch);
 }
