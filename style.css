@@ -45,9 +45,6 @@
     --sans: FavoritRegular;*/
     --serif: TimesNowLight;
     --sans: FavoritLight;
-
-    /* placeholder fill */
-    --ph: #e4e4e4;
 }
 ::selection {
     background-color: #000;
@@ -922,24 +919,4 @@ a {
   z-index: 99999;
   pointer-events: auto;         /* primi 3s blocca i click; poi → none via JS */
   background: transparent;
-}
-
-/* ============================================================================
-   PLACEHOLDERS (reference build only — remove when adding real media)
-   Every <img>/<video> is empty + transparent; this paints it as a neutral
-   grey rectangle. CSS aspect-ratios above keep the exact original proportions.
-   ============================================================================ */
-img,
-.ph {
-    background-color: var(--ph);
-    background-image: repeating-linear-gradient(45deg,
-        rgba(0, 0, 0, 0.05) 0 8px,
-        rgba(0, 0, 0, 0) 8px 16px);
-}
-/* video placeholders: match the inline 16/9 boxes used in the markup */
-.ph-video {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
 }
